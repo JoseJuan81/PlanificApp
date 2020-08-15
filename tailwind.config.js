@@ -12,11 +12,16 @@ module.exports = {
     extend: {
       colors: {
         $black: '#000000',
-        error: defaultTheme.colors.red[600],
-        $primaryGray: '#ececec',
-        $primaryTextGray: '#222222',
-        $secondaryGray: '#f5f5f5',
-        $secondaryTextGray: '#666666',
+        $error: defaultTheme.colors.red[600],
+        $primary: defaultTheme.colors.indigo[400],
+        $gray: {
+          prim: '#ececec',
+          secon: '#f5f5f5',
+        },
+        $text: {
+          prim: '#2c3e50',
+          secon: '#666666',
+        },
         $white: '#ffffff',
       },
       container: {

@@ -7,7 +7,11 @@ const treeListRoute = {
     {
       name: 'tree-list',
       path: 'lista',
-      component: () => import(/* webpackChunkName: "tree-list" */ '@/views/TreeList.vue'),
+      components: {
+        default: () => import(/* webpackChunkName: "tree-list" */ '@/views/TreeList.vue'),
+        menuLeft: () => import('@/components/TreeList/menu.vue'),
+        menuRight: () => import('@/components/TreeList/detail.vue'),
+      },
     },
   ],
 };

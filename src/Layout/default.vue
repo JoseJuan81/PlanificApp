@@ -9,22 +9,21 @@
       >
         <template v-slot:asideLeft>
           <div class="max-w-sm ml-auto">
-            Izquierda
-            <router-view name="menu-left" />
+            <router-view name="menuLeft" />
           </div>
         </template>
         <template v-slot:main-content>
-          <div class="min-w-movil">Contenido web</div>
+          <div class="min-w-movil">
+            <router-view />
+          </div>
         </template>
         <template v-slot:menu-movil>Contenido movil</template>
         <template v-slot:asideRight>
           <div class="max-w-sm mr-auto">
-            Derecha
-            <router-view name="menu-right" />
+            <router-view name="menuRight" />
           </div>
         </template>
       </UserProfileLayout>
-      <router-view />
     </div>
   </div>
 </template>
@@ -63,7 +62,7 @@ export default {
       @apply h-full;
 
       .wrapper-menu {
-        @apply border border-solid border-$secondaryGray;
+        @apply border border-solid border-$gray-secon;
         @apply px-4;
         @apply sticky;
         @apply ml-auto;
@@ -72,7 +71,7 @@ export default {
         top: 1rem;
 
         .menu-section-title {
-          @apply text-$secondaryTextGray;
+          @apply text-$gray-secon;
           @apply uppercase;
         }
 
@@ -91,7 +90,7 @@ export default {
     @apply w-full;
     @apply pb-4 pt-6;
     @apply rounded;
-    @apply text-$secondaryTextGray font-bold;
+    @apply text-$text-secon font-bold;
     @apply sticky top-0;
 
     li {
@@ -100,11 +99,11 @@ export default {
       @apply duration-200;
 
       &:hover {
-        @apply bg-$secondaryGray;
+        @apply bg-$gray-secon;
       }
 
       &.active {
-        @apply bg-$secondaryGray;
+        @apply bg-$gray-secon;
         @apply w-full h-full;
         @apply rounded-md;
         @apply duration-500;
@@ -116,7 +115,7 @@ export default {
     @apply h-screen;
     @apply bg-white;
     @apply fixed z-10;
-    @apply border-r border-solid border-gray-200;
+    @apply border-r border-solid border-$gray-secon;
 
     flex-basis: 22%;
 
