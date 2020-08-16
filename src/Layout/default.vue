@@ -1,10 +1,10 @@
 <template>
   <div>
-    <nav>Barra de navegación</nav>
+    <NavBar />
     <div class="container">
       <UserProfileLayout
         class="profile"
-        :show="show"
+        :show="showMovilMenu"
         :break-point="768"
       >
         <template v-slot:asideLeft>
@@ -17,7 +17,19 @@
             <router-view />
           </div>
         </template>
-        <template v-slot:menu-movil>Contenido movil</template>
+        <template v-slot:menu-movil>
+          <div class="activator movil mb-4">
+            <button
+              data-cy="closeMovilMenu"
+              class="w-full h-full"
+              type="button"
+              @click="openMovilMenu"
+            >
+              <BackIcon class="menu-movil-back-btn" />
+            </button>
+          </div>
+          <router-view name="menuLeft" class="px-4" />
+        </template>
         <template v-slot:asideRight>
           <div class="max-w-sm mr-auto">
             <router-view name="menuRight" />
@@ -29,28 +41,49 @@
 </template>
 <script>
 import UserProfileLayout from 'user-profile-layout';
+import BackIcon from '@/components/Icons/dl-backLeft-icon.vue';
+import NavBar from '@/components/common/NavigationBar.vue';
+import { mutations, store } from '@/global/VueObservable';
 
-function data() {
-  return {
-    show: false,
-  };
+function openMovilMenu() {
+  mutations.toggleMovilMenu();
+}
+
+function showMovilMenu() {
+  return store.showMovilMenu;
 }
 
 export default {
   name: 'DefaultLayout',
   components: {
+    BackIcon,
+    NavBar,
     UserProfileLayout,
   },
-  data,
+  computed: {
+    showMovilMenu,
+  },
+  methods: {
+    openMovilMenu,
+  },
 };
 </script>
 <style lang="scss">
 .activator {
   @apply block;
-  @apply pl-4;
+  @apply p-3;
+  @apply w-20 h-20;
 
   @media (min-width: 769px) {
     @apply hidden;
+  }
+
+  &.movil {
+    @apply w-full;
+  }
+
+  .menu-movil-back-btn {
+    @apply text-$dark-prim;
   }
 }
 
@@ -84,6 +117,7 @@ export default {
 
   .dl-menu-movil {
     @apply bg-white;
+    @apply shadow-lg;
   }
 
   .menu-items {

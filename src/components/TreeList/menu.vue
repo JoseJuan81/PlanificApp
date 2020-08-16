@@ -1,8 +1,8 @@
 <template>
-  <nav>
+  <nav data-cy="treeListMovilMenu">
     <ul>
-      <li>opción 1</li>
-      <li>opción 2</li>
+      <li>Listado Jerárquico</li>
+      <li>Gantt</li>
     </ul>
   </nav>
 </template>
