@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav data-cy="treeListMovilMenu">
     <ul>
       <li>Listado Jerárquico</li>
       <li>Gantt</li>

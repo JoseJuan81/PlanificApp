@@ -1,7 +1,12 @@
 <template>
-  <nav class="p-2 px-6 bg-$dark-prim h-24 flex items-center">
+  <nav data-cy="navBar" class="p-2 px-6 bg-$dark-prim h-24 flex items-center">
     <div class="activator">
-      <button class="w-full h-full" type="button" @click="closeMovilMenu">
+      <button
+        data-cy="activatorMovilMenu"
+        class="w-full h-full"
+        type="button"
+        @click="closeMovilMenu"
+      >
         <MenuIcon class="text-$white" />
       </button>
     </div>

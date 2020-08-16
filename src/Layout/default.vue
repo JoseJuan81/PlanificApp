@@ -18,8 +18,13 @@
           </div>
         </template>
         <template v-slot:menu-movil>
-          <div class="activator mb-4">
-            <button class="w-full h-full" type="button" @click="openMovilMenu">
+          <div class="activator movil mb-4">
+            <button
+              data-cy="closeMovilMenu"
+              class="w-full h-full"
+              type="button"
+              @click="openMovilMenu"
+            >
               <BackIcon class="menu-movil-back-btn" />
             </button>
           </div>
@@ -71,6 +76,10 @@ export default {
 
   @media (min-width: 769px) {
     @apply hidden;
+  }
+
+  &.movil {
+    @apply w-full;
   }
 
   .menu-movil-back-btn {
