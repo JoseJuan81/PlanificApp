@@ -8,7 +8,7 @@
         :break-point="768"
       >
         <template v-slot:asideLeft>
-          <div class="max-w-sm ml-auto">
+          <div class="max-w-sm ml-auto sticky top-0">
             <router-view name="menuLeft" />
           </div>
         </template>
@@ -31,7 +31,7 @@
           <router-view name="menuLeft" class="px-4" />
         </template>
         <template v-slot:asideRight>
-          <div class="max-w-sm mr-auto">
+          <div class="max-w-sm mr-auto sticky top-0">
             <router-view name="menuRight" />
           </div>
         </template>
