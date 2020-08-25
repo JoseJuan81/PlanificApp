@@ -35,6 +35,7 @@
           <h3 class="font-bold text-primary-base">Asignar actividad</h3>
         </button>
         <div
+          data-cy="asigned-container"
           :class="[
             'collapsing-container',
             { 'collapsing-container-collapsed': hideAsignedContainer },
@@ -62,6 +63,7 @@
           <h3 class="font-bold text-primary-base">Sub Actividades</h3>
         </button>
         <div
+          data-cy="sub-task-container"
           :class="[
             'collapsing-container',
             { 'collapsing-container-collapsed': hideSubTaskContainer },
@@ -87,6 +89,7 @@
           <h3 class="font-bold text-primary-base">Check List</h3>
         </button>
         <div
+          data-cy="check-list-container"
           :class="[
             'collapsing-container',
             { 'collapsing-container-collapsed': hideCheckListContainer },
@@ -110,6 +113,7 @@
           <h3 class="font-bold text-primary-base">Tiempo de ejecución</h3>
         </button>
         <div
+          data-cy="time-container"
           :class="[
             'collapsing-container',
             { 'collapsing-container-collapsed': hideTimeDefinition },
@@ -151,6 +155,7 @@
           <h3 class="font-bold text-primary-base">Etiquetas</h3>
         </button>
         <div
+          data-cy="labels-container"
           :class="[
             'collapsing-container',
             { 'collapsing-container-collapsed': hideLabelsContainer },
@@ -174,6 +179,7 @@
           <h3 class="font-bold text-primary-base">Actividades Relacionadas</h3>
         </button>
         <div
+          data-cy="related-container"
           :class="[
             'collapsing-container',
             { 'collapsing-container-collapsed': hideRelatedTaskContainer },
@@ -197,6 +203,7 @@
           <h3 class="font-bold text-primary-base">Comentarios</h3>
         </button>
         <div
+          data-cy="commets-container"
           :class="[
             'collapsing-container',
             { 'collapsing-container-collapsed': hideCommetsContainer },
