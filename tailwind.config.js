@@ -16,13 +16,17 @@ module.exports = {
           prim: defaultTheme.colors.blue[900],
         },
         $error: defaultTheme.colors.red[600],
-        $primary: '#408fff',
-        $secondary: '#5856d6',
-        $gray: {
-          prim: '#ececec',
-          secon: '#f5f5f5',
-          light: '#fafafa',
+        primary: {
+          light: '#f5f9ff',
+          base: '#408fff',
         },
+        $secondary: '#5856d6',
+        gray: {
+          light: '#fafafa',
+          medium: '#f5f5f5',
+          base: '#ececec',
+        },
+        $success: '',
         $text: {
           prim: '#2c3e50',
           secon: '#666666',
@@ -37,6 +41,9 @@ module.exports = {
       lineHeight: (theme) => theme('spacing'),
       minWidth: {
         movil: '32rem',
+      },
+      borderRadius: {
+        xl: '0.75rem',
       },
       width: {
         content: 'fit-content',

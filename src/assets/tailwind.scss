@@ -3,4 +3,24 @@ html, body {
   font-size: 62.5%;
 }
 @import "tailwindcss/components";
+.btn {
+  @apply px-5 py-3;
+  @apply rounded;
+  @apply duration-100;
+  @apply font-bold;
+  
+  &:focus {
+    @apply outline-none;
+  }
+
+  &-icon {
+    @apply flex items-center justify-center;
+    @apply p-5;
+  }
+
+  &:hover {
+    @apply shadow-lg;
+    @apply transform -translate-x-1;
+  }
+}
 @import "tailwindcss/utilities";
