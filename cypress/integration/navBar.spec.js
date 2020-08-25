@@ -1,11 +1,16 @@
+
 context('Verificar barra de navegación', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8080/actividades/lista');
   });
   it('VERSIÓN WEB.', () => {
     cy.get('[data-cy="navBar"]')
-      .should('exist')
-      .should('have.class', 'bg-$dark-prim h-24');
+      .should('exist');
+    cy.get('[data-cy="navBar"]').then((el) => {
+      const [nav] = el;
+      const { tagName } = nav;
+      expect(tagName).to.equal('NAV');
+    });
   });
   it('NO EXISTE BOTÓN MENÚ EN PANTALL WEB', () => {
     cy.viewport(1000, 660)

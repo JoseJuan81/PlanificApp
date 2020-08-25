@@ -1,14 +1,15 @@
 <template>
-  <div>
+  <div class="bg-gray-base min-h-screen">
     <NavBar />
-    <div class="container">
+    <div class="container pt-8">
       <UserProfileLayout
+        show-right
         class="profile"
         :show="showMovilMenu"
         :break-point="768"
       >
         <template v-slot:asideLeft>
-          <div class="max-w-sm ml-auto sticky top-0">
+          <div class="aside-container">
             <router-view name="menuLeft" />
           </div>
         </template>
@@ -31,7 +32,7 @@
           <router-view name="menuLeft" class="px-4" />
         </template>
         <template v-slot:asideRight>
-          <div class="max-w-sm mr-auto sticky top-0">
+          <div class="aside-container">
             <router-view name="menuRight" />
           </div>
         </template>
@@ -83,28 +84,36 @@ export default {
   }
 
   .menu-movil-back-btn {
-    @apply text-$dark-prim;
+    @apply text-primary-base;
   }
 }
 
 .dl-layout-main-container.profile {
   .dl-container-layout {
-    @apply grid grid-flow-col gap-4;
+    @apply flex;
 
-    .dl-aside-container {
+    .dl-section-container {
+      @apply flex-auto;
+      @apply px-4;
+    }
+
+    .dl-aside-container-left,
+    .dl-aside-container-right {
       @apply h-full;
+      @apply bg-$white;
+
+      flex-basis: 20%;
 
       .wrapper-menu {
-        @apply border border-solid border-$gray-secon;
+        @apply border border-solid border-gray-medium;
         @apply px-4;
         @apply sticky;
         @apply ml-auto;
 
-        max-width: 15rem;
         top: 1rem;
 
         .menu-section-title {
-          @apply text-$gray-secon;
+          @apply text-gray-medium;
           @apply uppercase;
         }
 
@@ -112,6 +121,10 @@ export default {
           @apply pt-32;
         }
       }
+    }
+
+    .dl-aside-container-right {
+      flex-basis: 30%;
     }
   }
 
@@ -133,11 +146,11 @@ export default {
       @apply duration-200;
 
       &:hover {
-        @apply bg-$gray-secon;
+        @apply bg-gray-medium;
       }
 
       &.active {
-        @apply bg-$gray-secon;
+        @apply bg-gray-medium;
         @apply w-full h-full;
         @apply rounded-md;
         @apply duration-500;
@@ -149,7 +162,7 @@ export default {
     @apply h-screen;
     @apply bg-white;
     @apply fixed z-10;
-    @apply border-r border-solid border-$gray-secon;
+    @apply border-r border-solid border-gray-medium;
 
     flex-basis: 22%;
 
@@ -159,5 +172,11 @@ export default {
       }
     }
   }
+}
+
+.aside-container {
+  @apply sticky;
+
+  top: 7rem;
 }
 </style>

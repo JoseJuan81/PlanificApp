@@ -1,5 +1,5 @@
 <template>
-  <nav data-cy="navBar" class="p-2 px-6 bg-$dark-prim h-24 flex items-center">
+  <nav data-cy="navBar" class="header-nav">
     <div class="activator">
       <button
         data-cy="activatorMovilMenu"
@@ -7,7 +7,7 @@
         type="button"
         @click="closeMovilMenu"
       >
-        <MenuIcon class="text-$white" />
+        <MenuIcon class="text-primary-base" />
       </button>
     </div>
   </nav>
@@ -38,6 +38,15 @@ export default {
 };
 </script>
 <style lang="scss">
+.header-nav {
+  @apply p-2 px-6;
+  @apply border-b border-solid border-gray-base;
+  @apply shadow;
+  @apply bg-$white;
+  @apply h-24;
+  @apply flex items-center;
+  @apply sticky top-0 z-10;
+}
 .activator {
   @apply block;
   @apply p-3;
@@ -48,7 +57,7 @@ export default {
   }
 
   .menu-movil-back-btn {
-    @apply text-$primary;
+    @apply text-primary-base;
   }
 }
 </style>
