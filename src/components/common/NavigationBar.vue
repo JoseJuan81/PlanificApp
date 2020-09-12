@@ -40,7 +40,6 @@ export default {
 <style lang="scss">
 .header-nav {
   @apply p-2 px-6;
-  @apply border-b border-solid border-gray-base;
   @apply shadow;
   @apply bg-$white;
   @apply h-24;

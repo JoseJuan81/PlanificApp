@@ -48,15 +48,14 @@ export default {
 .input-field {
   @apply font-medium;
   @apply bg-white;
-  @apply border border-gray-base rounded-lg;
+  @apply border border-gray-light rounded-lg;
   @apply py-2 px-4;
   @apply w-full;
 
   &:focus {
-    @apply bg-primary-light;
-    @apply border border-solid border-primary-base;
+    @apply bg-primary-lightest;
+    @apply border border-solid border-primary-light;
     @apply outline-none;
-    @apply shadow;
   }
 }
 
@@ -64,7 +63,7 @@ export default {
   @apply text-left;
 
   .error-msg {
-    @apply text-$error text-lg tracking-wider;
+    @apply text-error-dark text-lg tracking-wider;
     @apply ml-3;
   }
 }
