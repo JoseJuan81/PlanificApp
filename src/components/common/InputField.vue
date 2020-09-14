@@ -4,9 +4,11 @@
     <input
       id="input-field"
       v-bind="$attrs"
-      class="input-field"
+      ref="inputField"
+      :class="[invisible ? 'invisible-input' : 'input-field']"
       :value="value"
       @input="sendValue"
+      @keydown.enter="pushEnter"
     >
     <div class="error-msg-container" v-if="validation">
       <span class="error-msg">
@@ -21,16 +23,25 @@ function sendValue(ev) {
   this.$emit('input', ev.target.value);
 }
 
+function pushEnter(ev) {
+  this.$emit('press-enter', ev.target.value);
+}
+
 export default {
   name: 'InputField',
   inheritAttrs: false,
   methods: {
+    pushEnter,
     sendValue,
   },
   props: {
     label: {
       default: '',
       type: String,
+    },
+    invisible: {
+      default: false,
+      type: Boolean,
     },
     validation: {
       default: false,
@@ -48,15 +59,19 @@ export default {
 .input-field {
   @apply font-medium;
   @apply bg-white;
-  @apply border border-gray-base rounded-lg;
+  @apply border border-gray-light rounded-lg;
   @apply py-2 px-4;
   @apply w-full;
 
   &:focus {
-    @apply bg-primary-light;
-    @apply border border-solid border-primary-base;
+    @apply border border-solid border-primary-light;
     @apply outline-none;
-    @apply shadow;
+  }
+
+  &[disabled] {
+    @apply cursor-not-allowed;
+    @apply bg-gray-lightest;
+    @apply text-gray-medium;
   }
 }
 
@@ -64,8 +79,19 @@ export default {
   @apply text-left;
 
   .error-msg {
-    @apply text-$error text-lg tracking-wider;
+    @apply text-error-dark text-lg tracking-wider;
     @apply ml-3;
+  }
+}
+
+.invisible-input {
+  @apply border-none;
+  @apply py-2 px-4;
+  @apply w-full;
+
+  &:focus {
+    @apply outline-none;
+    @apply border-b border-solid border-primary-light;
   }
 }
 </style>

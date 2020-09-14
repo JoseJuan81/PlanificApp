@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div class="bg-$white p-3 mb-2 flex justify-between items-center">
-      <div class="flex">
+    <div
+      :class="[
+        'bg-$white flex p-3 mb-2 rounded-lg shadow',
+        { 'flex-col': !isNotEmptyList }
+      ]">
+      <div class="flex" v-if="isNotEmptyList">
         <button
           type="button"
           :class="[
@@ -23,8 +27,12 @@
           <treeTaskIcon class="text-primary-base" />
         </button>
       </div>
-      <div>
-        <button class="btn bg-primary-base text-$white">+ Nueva</button>
+      <div :class="{ 'self-end': !isNotEmptyList }">
+        <button
+          data-cy="new-task"
+          class="btn btn-primary"
+          @click="newTask"
+        >+ Nueva</button>
       </div>
     </div>
     <tree-nodes-dl
@@ -33,7 +41,7 @@
       children="inner"
       text="title"
       :indent="indentComputed"
-      :nodes="treeData"
+      :nodes="list"
       v-slot="{ node, isOpen }"
     >
       <div
@@ -46,12 +54,13 @@
           <span class="mr-2" v-if="!isOpen && node.inner && flagTree">+</span>
           <span class="mr-2" v-if="isOpen && node.inner && flagTree">-</span>
           <h2
-            :class="[{'lm': !node.inner }]"
+            :class="[{'lm': !node.inner }, 'hover:text-gray-darkest']"
           >{{node.title}}</h2>
         </div>
         <button
           data-cy="treeNodeActionBtn"
           type="button"
+          class="text-gray-base"
           @click.stop
         >click me!</button>
       </div>
@@ -59,6 +68,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 import treeNodesDl from 'tree-nodes-dl';
 import taskListIcon from '@/components/Icons/dl-task-list-icon.vue';
 import treeTaskIcon from '@/components/Icons/dl-tree-tasks-icon.vue';
@@ -67,98 +77,13 @@ function indentComputed() {
   return this.flagTree ? 10 : 0;
 }
 
+function newTask() {
+  this.$router.push({ name: 'new-hierarchy-task' });
+}
+
 function data() {
   return {
     flagTree: true,
-    treeData: [
-      {
-        title: 'Cambio de Cinta transportadora',
-        otherProp: false,
-        inner: [
-          {
-            title: 'Compra de cinta transportadora',
-            inner: [
-              {
-                title: 'Evaluar cotizaciones',
-              },
-            ],
-          },
-          {
-            title: 'Contratar personal',
-            inner: [
-              {
-                title: 'Perfiles requeridos',
-              },
-              {
-                title: 'Estimación del CAS',
-              },
-            ],
-          },
-          {
-            title: 'Presentar estimación',
-            inner: [
-              {
-                title: 'Elaborar estimación',
-              },
-            ],
-          },
-          {
-            title: 'Transporte de pesonal',
-            inner: [
-              {
-                title: 'Estado de unidades de transporte',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: 'B',
-        inner: [
-          {
-            title: 'B.1',
-            inner: [
-              {
-                title: 'B.1.1',
-              },
-              {
-                title: 'B.1.2',
-              },
-            ],
-          },
-          {
-            title: 'B.2',
-            inner: [
-              {
-                title: 'B.2.1',
-              },
-            ],
-          },
-          {
-            title: 'B.3',
-            inner: [
-              {
-                title: 'B.3.1',
-              },
-            ],
-          },
-          {
-            title: 'B.4',
-            inner: [
-              {
-                title: 'B.4.1',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: 'C',
-      },
-      {
-        title: 'D',
-      },
-    ],
   };
 }
 
@@ -170,9 +95,16 @@ export default {
     treeTaskIcon,
   },
   computed: {
+    ...mapState('HierarchyTask', {
+      isNotEmptyList: (state) => state.list.length > 0,
+      list: (state) => state.list,
+    }),
     indentComputed,
   },
   data,
+  methods: {
+    newTask,
+  },
 };
 </script>
 <style lang="scss">
@@ -193,6 +125,15 @@ export default {
   }
 }
 
+.header-options-task {
+  @apply flex justify-between items-center;
+}
+
+.header-options-task-none {
+  @apply p-3 mb-2;
+  @apply flex flex-col self-end;
+}
+
 .tree-container {
   @apply bg-$white;
   @apply rounded-xl;
@@ -200,7 +141,7 @@ export default {
   .node-container-wrapper {
 
     .slot-node-content {
-      @apply border-t border-solid border-gray-base;
+      @apply border-t border-solid border-gray-light;
       @apply duration-100;
       @apply pr-3 py-2;
 

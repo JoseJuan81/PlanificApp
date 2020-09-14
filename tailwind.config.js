@@ -10,28 +10,56 @@ module.exports = {
   important: true,
   theme: {
     extend: {
+      fill: (theme) => theme('colors'),
       colors: {
-        $black: '#000000',
-        $dark: {
-          prim: defaultTheme.colors.blue[900],
+        error: {
+          lightest: '#FDEDED',
+          light: '#FADBDB',
+          medium: '#F3A5A5',
+          base: '#EE8181',
+          dark: defaultTheme.colors.red[600],
+          darkest: '#B41818',
         },
-        $error: defaultTheme.colors.red[600],
-        primary: {
-          light: '#f5f9ff',
-          base: '#408fff',
-        },
-        $secondary: '#5856d6',
         gray: {
-          light: '#fafafa',
-          medium: '#f5f5f5',
-          base: '#ececec',
+          lightest: '#F2F2F3',
+          light: '#ececec',
+          medium: '#8D8B92',
+          base: '#646369',
+          dark: '#4b4a4f',
+          darkest: '#323135',
         },
-        $success: '',
+        primary: {
+          lightest: '#e6f0ff',
+          // lightest: '#EBEDFF',
+          light: '#ADB7FF',
+          medium: '#8593FF',
+          base: '#3385FF',
+          // base: '#5C6FFF',
+          dark: '#0066ff',
+          // dark: '#475DFF',
+          darkest: '#005AE0',
+          // darkest: '#1F39FF',
+        },
+        success: {
+          lightest: '#F0FAF0',
+          light: '#D1F0D1',
+          medium: '#97DB95',
+          base: '#6ACB67',
+          dark: '#42B63E',
+          darkest: '#379834',
+        },
         $text: {
           prim: '#2c3e50',
           secon: '#666666',
         },
-        $warning: '#ffbe3d',
+        warning: {
+          lightest: '#FEF7EB',
+          light: '#FDE8C4',
+          medium: '#F8BA4F',
+          base: '#F8BA4F',
+          dark: '#F49F0A',
+          darkest: '#D78C09',
+        },
         $white: '#ffffff',
       },
       container: {
@@ -53,8 +81,9 @@ module.exports = {
   variants: {
     backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
     boxShadow: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
-    margin: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
+    fill: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
     fontSize: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
+    margin: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
   },
   plugins: [],
   purge: {

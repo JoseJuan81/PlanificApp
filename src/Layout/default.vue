@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-gray-base min-h-screen">
+  <div class="bg-gray-light min-h-screen">
     <NavBar />
     <div class="container pt-8">
       <UserProfileLayout
         show-right
-        class="profile"
+        :class="['profile', { 'show': $route.name === 'new-hierarchy-task' }]"
         :show="showMovilMenu"
         :break-point="768"
       >
@@ -32,7 +32,8 @@
           <router-view name="menuLeft" class="px-4" />
         </template>
         <template v-slot:asideRight>
-          <div class="aside-container">
+          <div
+            :class="['aside-container']">
             <router-view name="menuRight" />
           </div>
         </template>
@@ -101,6 +102,8 @@ export default {
     .dl-aside-container-right {
       @apply h-full;
       @apply bg-$white;
+      @apply duration-200;
+      @apply rounded shadow;
 
       flex-basis: 20%;
 
@@ -124,7 +127,7 @@ export default {
     }
 
     .dl-aside-container-right {
-      flex-basis: 30%;
+      flex-basis: 0%;
     }
   }
 
@@ -174,6 +177,11 @@ export default {
   }
 }
 
+.dl-layout-main-container.show {
+  .dl-aside-container-right {
+      flex-basis: 27.5% !important;
+    }
+}
 .aside-container {
   @apply sticky;
 

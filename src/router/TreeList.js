@@ -12,6 +12,18 @@ const treeListRoute = {
         menuLeft: () => import('@/components/TreeList/menu.vue'),
         menuRight: () => import('@/components/TreeList/detail.vue'),
       },
+      children: [
+        {
+          name: 'new-hierarchy-task',
+          path: 'nueva',
+          component: () => import('@/components/TreeList/newTask.vue'),
+        },
+        {
+          name: 'edit-hierarchy-task',
+          path: 'editar/:id',
+          component: () => import('@/components/TreeList/newTask.vue'),
+        },
+      ],
     },
   ],
 };

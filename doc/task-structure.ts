@@ -10,18 +10,20 @@ interface TaskProgress<Type> {
   done: Type,
   total: Type,
 }
+interface TaskTime {
+  endDate: Date,
+  duration: number,
+  initDate: Date,
+}
 interface Task {
   asigned: string,
   balance: number,
   children: Array<ID>,
   comments: Array<string>,
-  duration: number,
-  endDate: Date,
   expenses: Array<string>,
   flagMaster: boolean,
   flagSimpleTask: boolean,
   id: ID,
-  initDate: Date,
   labels: Array<string>,
   links: Array<string>,
   name: string,
@@ -29,4 +31,6 @@ interface Task {
   relatedTasks: Array<ID>,
   spent: number,
   status: TaskStatus,
+  subTaskOf: ID,
+  time: TaskTime,
 }

@@ -76,16 +76,15 @@ export default {
 }
 
 .labels-container {
-  @apply border border-gray-base rounded-lg;
+  @apply border border-gray-light rounded-lg;
   @apply p-2;
   @apply w-full;
   @apply flex flex-wrap;
 
   &:focus-within {
-    @apply bg-primary-light;
-    @apply border border-solid border-primary-base;
+    @apply bg-primary-lightest;
+    @apply border border-solid border-primary-light;
     @apply outline-none;
-    @apply shadow;
   }
 
   .input-tag-field {
@@ -102,7 +101,7 @@ export default {
     @apply text-left;
 
     .error-msg {
-      @apply text-$error text-lg tracking-wider;
+      @apply text-error-dark text-lg tracking-wider;
       @apply ml-3;
     }
   }

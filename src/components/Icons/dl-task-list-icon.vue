@@ -1,4 +1,5 @@
 <template>
+<!-- https://fontawesome.com/license -->
   <svg viewBox="0 0 512 512" :fill="color" style="width:100%;height:100%">
     <path
       :d="d"

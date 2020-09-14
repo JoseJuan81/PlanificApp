@@ -21,9 +21,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tag {
-  @apply border border-solid border-primary-base rounded;
-  @apply text-primary-base font-bold;
-  @apply bg-primary-base bg-opacity-25 ;
+  @apply border border-solid border-gray-dark rounded;
+  @apply text-gray-dark font-bold;
+  @apply bg-gray-lightest;
   @apply px-2 py-1 m-1;
 
   .tag-remove {
@@ -33,7 +33,7 @@ export default {
     @apply ml-1;
 
     &:hover {
-      @apply bg-primary-base;
+      @apply bg-gray-dark;
       @apply text-white;
     }
     &:focus {
