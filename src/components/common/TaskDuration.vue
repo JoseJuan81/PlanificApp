@@ -3,11 +3,12 @@
     <fieldset class="mb-4">
       <div class="flex items-center justify-end">
         <label for="chk">Fecha con hora</label>
-        <input type="checkbox" id="chk" class="ml-4" v-model="hours">
+        <input data-cy="withHoursChk" type="checkbox" id="chk" class="ml-4" v-model="hours">
       </div>
     </fieldset>
     <fieldset class="mb-4">
       <InputField
+        data-cy="duration"
         type="number"
         label="Duración"
         :disabled="isLockedEndDate && isLockedInitDate"
@@ -19,6 +20,7 @@
     <fieldset class="mb-4">
       <div class="flex items-end">
         <InputField
+          data-cy="initDate"
           class="flex-grow"
           :validation="false"
           :type="dateType"
@@ -28,6 +30,7 @@
         ></InputField>
         <div>
           <button
+            data-cy="initDateLockBtn"
             type="button"
             class="btn-mini-icon focus:outline-none mb-4"
             @click="lockDate('initDate')"
@@ -44,6 +47,7 @@
     <fieldset class="mb-4">
       <div class="flex items-end">
         <InputField
+          data-cy="endDate"
           class="flex-grow"
           :validation="false"
           :type="dateType"
@@ -53,6 +57,7 @@
         ></InputField>
         <div class="flex items-baseline">
           <button
+            data-cy="endDateLockBtn"
             type="button"
             class="btn-mini-icon focus:outline-none mb-4"
             @click="lockDate('endDate')"

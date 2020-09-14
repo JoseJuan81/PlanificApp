@@ -190,6 +190,7 @@
 
       <div class="collapsing-wrapper">
         <button
+          data-cy="duration-container"
           class="collapsing-activator"
           type="button"
           @click="hideTimeDefinition = !hideTimeDefinition"

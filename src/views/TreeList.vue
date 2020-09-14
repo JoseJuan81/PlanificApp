@@ -29,6 +29,7 @@
       </div>
       <div :class="{ 'self-end': !isNotEmptyList }">
         <button
+          data-cy="new-task"
           class="btn btn-primary"
           @click="newTask"
         >+ Nueva</button>
