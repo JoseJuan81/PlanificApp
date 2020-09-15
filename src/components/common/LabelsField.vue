@@ -82,7 +82,6 @@ export default {
   @apply flex flex-wrap;
 
   &:focus-within {
-    @apply bg-primary-lightest;
     @apply border border-solid border-primary-light;
     @apply outline-none;
   }

@@ -3,7 +3,7 @@
     <div
       :class="[
         'bg-$white flex p-3 mb-2 rounded-lg shadow',
-        { 'flex-col': !isNotEmptyList }
+        isNotEmptyList ? 'justify-between' : 'flex-col',
       ]">
       <div class="flex" v-if="isNotEmptyList">
         <button
@@ -44,26 +44,7 @@
       :nodes="list"
       v-slot="{ node, isOpen }"
     >
-      <div
-        :class="[
-          'task-node-container', { 'pl-3': !flagTree },
-        ]"
-        data-cy="treeNodeSlot"
-      >
-        <div class="flex items-center flex-auto">
-          <span class="mr-2" v-if="!isOpen && node.inner && flagTree">+</span>
-          <span class="mr-2" v-if="isOpen && node.inner && flagTree">-</span>
-          <h2
-            :class="[{'lm': !node.inner }, 'hover:text-gray-darkest']"
-          >{{node.title}}</h2>
-        </div>
-        <button
-          data-cy="treeNodeActionBtn"
-          type="button"
-          class="text-gray-base"
-          @click.stop
-        >click me!</button>
-      </div>
+      <TaskNode :node="node" :is-open="isOpen" />
     </tree-nodes-dl>
   </div>
 </template>
@@ -72,6 +53,7 @@ import { mapState } from 'vuex';
 import treeNodesDl from 'tree-nodes-dl';
 import taskListIcon from '@/components/Icons/dl-task-list-icon.vue';
 import treeTaskIcon from '@/components/Icons/dl-tree-tasks-icon.vue';
+import TaskNode from '@/components/TreeList/TaskNode.vue';
 
 function indentComputed() {
   return this.flagTree ? 10 : 0;
@@ -90,8 +72,9 @@ function data() {
 export default {
   name: 'TreeList',
   components: {
-    treeNodesDl,
+    TaskNode,
     taskListIcon,
+    treeNodesDl,
     treeTaskIcon,
   },
   computed: {
@@ -152,11 +135,6 @@ export default {
         @apply transform scale-x-105;
       }
     }
-  }
-
-  .task-node-container {
-    @apply cursor-pointer;
-    @apply flex items-center;
   }
 }
 

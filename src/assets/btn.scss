@@ -55,4 +55,10 @@
     @apply shadow-lg;
     @apply transform -translate-x-1;
   }
+
+  &[disabled] {
+    @apply bg-gray-light;
+    @apply text-gray-medium;
+    @apply cursor-not-allowed;
+  }
 }
