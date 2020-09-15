@@ -30,15 +30,17 @@ module.exports = {
         },
         primary: {
           lightest: '#e6f0ff',
-          // lightest: '#EBEDFF',
           light: '#ADB7FF',
           medium: '#8593FF',
           base: '#3385FF',
-          // base: '#5C6FFF',
           dark: '#0066ff',
-          // dark: '#475DFF',
           darkest: '#005AE0',
-          // darkest: '#1F39FF',
+        },
+        secondary: {
+          lightest: '#EBEDFF',
+          base: '#5C6FFF',
+          dark: '#475DFF',
+          darkest: '#1F39FF',
         },
         success: {
           lightest: '#F0FAF0',

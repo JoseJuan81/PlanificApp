@@ -18,6 +18,7 @@ interface TaskTime {
 interface Task {
   asigned: string,
   balance: number,
+  budget: number,
   children: Array<ID>,
   comments: Array<string>,
   expenses: Array<string>,

@@ -37,8 +37,7 @@
           >
             <LockIcon
               :class="[
-                'hover:fill-success-dark',
-                isLockedInitDate ? 'fill-success-dark' : 'fill-gray-light',
+                isLockedInitDate ? 'fill-success-dark' : 'fill-gray-light hover:fill-gray-medium',
               ]" />
           </button>
         </div>
@@ -64,8 +63,7 @@
           >
             <LockIcon
               :class="[
-                'hover:fill-success-dark',
-                isLockedEndDate ? 'fill-success-dark' : 'fill-gray-light',
+                isLockedEndDate ? 'fill-success-dark' : 'fill-gray-light hover:fill-gray-medium',
               ]" />
           </button>
         </div>

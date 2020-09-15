@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      ? .text-transform{text-transform:uppercase;z-index:5000}
+    </style>
+    
+  </head>
+  <body>
+    <div class="wrapper" style="position: relative">
+      <table border="0" cellpadding="0" cellspacing="0" class="table-mail" style="margin:auto;max-width:550px;width:100%;background-color: white;">
+        <thead class="back-orange" style="background-color:#ff8d03;">
+          <tr class="head-t" style="height:74px;">
+            <th colspan="2">
+              <img src="https://quipu-static.s3.amazonaws.com/ADSP0003_image/BLANCO-MAKI.png" alt="logo ADS" height="70px"/>
+                        </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="number-order" style="background-color:#f5f5f5;">
+            <td colspan="2" class="td-text center" style="text-align:center;height:29px;">
+              <span>Pedido no. {{content.numero}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center py-30" style="text-align:center;padding:30px 0;">
+              <span class="text-bold" style="font-weight:900;font-size:24px;">¡Tu pedido esta {{content.orderState.name}}!</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center pb-10" style="text-align:center;padding-bottom:10px;">
+              <span>Hola {{content.fullName}},</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center py-30" style="text-align:center;padding:30px 0;">
+              <a class="btn-order bold btn-a" href="https://makidemopro.netlify.app/perfil/mis-ordenes" style="font-weight:900;outline:none;background:#ff8d03;border:none;border-radius:46px;color:white;width:156px;display:block;text-decoration:none;margin:auto;padding:10px;color:white !important;">VER MI PEDIDO</a>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center back-green bold" style="text-align:center;font-weight:900;background:#6fc387;height:34px;color:white;">
+              <span>Pedido no. {{content.numero}}</span>
+            </td>
+          </tr>
+         {{#if content.paymentGateway}} 
+         <tr style="background-color:#f5f5f5;">
+            <td class="text-price" style="padding:15px;border-bottom:1px solid #f5f5f5;">
+              <span class="bold">No. de Referencia: <span style="margin-left: 10px">{{content.paymentGateway.referenceId}}</span></span>
+            </td>
+            <td class="text-price text-right" style="padding:5px 0;border-bottom:1px solid #f5f5f5;text-align:right;">
+              <span class="bold">No. Autorización: <span style="margin-left: 10px">{{content.paymentGateway.authorizationCode}}</span></span>
+            </td>
+          </tr>
+          {{/if}}
+          {{#each content.details}}
+          
+          <tr>
+            <td colspan="2" class="center pa-image" style="text-align:center;padding:20px 0 15px 0;">
+              <img src="{{productImage}}" alt="{{productName}}" class="logo-product" style="max-width:200px;height:130px;"/>
+                        </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="pb-5" style="padding-bottom:5px;">
+              <span class="bold" style="font-weight:900;">{{productName}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="pb-5" style="padding-bottom:5px;">
+              <span>Precio: $/{{salePrice}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="pb-5" style="padding-bottom:5px;">
+              <span>Cantidad: {{quantity}}</span>
+            </td>
+          </tr>
+          {{/each}}
+          
+          <tr>
+            <td colspan="2" class="center pb-20" style="text-align:center;padding:30px;">
+              <span class="bold text-green text-transform" style="font-weight:900;color:#7eca94;">{{content.orderState.name}}</span>
+            </td>
+          </tr>
+          <tr></tr>
+          {{#if content.flagStore}}
+          
+          <tr class="number-order" style="background-color:#f5f5f5;">
+            <td colspan="2" class="td-text center" style="text-align:center;height:29px;">
+              <span>Estado de Pedido</span>
+            </td>
+          </tr>
+          {{#if content.flagRequest}}
+          
+          <tr>
+            <td colspan="2" class="pa-image center" style="text-align:center;padding:50px 0 30px 0;">
+              <img src="https://japi-static.s3.amazonaws.com/undefined/group-29.png" width="368"/>
+                        </td>
+          </tr>
+          {{/if}}
+        {{#if content.flagConfirm}}
+          
+          <tr>
+            <td colspan="2" class="pa-image center" style="text-align:center;padding:50px 0 30px 0;">
+              <img src="https://japi-static.s3.amazonaws.com/undefined/group-342.png" width="368"/>
+                        </td>
+          </tr>
+          {{/if}}
+                    {{#if content.flagReadyToDeliver}}
+          
+          <tr>
+            <td colspan="2" class="pa-image center" style="text-align:center;padding:50px 0 30px 0;">
+              <img src="https://japi-static.s3.amazonaws.com/undefined/group-167.png" width="368"/>
+                        </td>
+          </tr>
+          {{/if}}
+                    {{ else }}
+          
+          <tr class="number-order" style="background-color:#f5f5f5;">
+            <td colspan="2" class="td-text center" style="text-align:center;height:29px;">
+              <span>Estado de pedido</span>
+            </td>
+          </tr>
+          {{#if content.flagRequest}}
+          
+          <tr>
+            <td colspan="2" class="pa-image center" style="text-align:center;padding:50px 0 30px 0;">
+              <img src="https://japi-static.s3.amazonaws.com/undefined/group-409.png" width="368"/>
+                        </td>
+          </tr>
+          {{/if}}
+                    {{#if content.flagConfirm}}
+          
+          <tr>
+            <td colspan="2" class="pa-image center" style="text-align:center;padding:50px 0 30px 0;">
+              <img src="https://japi-static.s3.amazonaws.com/undefined/group-10.png" width="368"/>
+                        </td>
+          </tr>
+          {{/if}}
+                    {{#if content.flagInRoad}}
+          
+          <tr>
+            <td colspan="2" class="pa-image center" style="text-align:center;padding:50px 0 30px 0;">
+              <img src="https://japi-static.s3.amazonaws.com/undefined/group-15.png" width="368"/>
+                        </td>
+          </tr>
+          {{/if}}
+                    {{#if content.flagGive}}
+          
+          <tr>
+            <td colspan="2" class="pa-image center" style="text-align:center;padding:50px 0 30px 0;">
+              <img src="https://japi-static.s3.amazonaws.com/undefined/group-20.png" width="368"/>
+                        </td>
+          </tr>
+          {{/if}}
+                {{/if}}
+          
+          <tr class="number-order" style="background-color:#f5f5f5;">
+            <td colspan="2" class="td-text center" style="text-align:center;height:29px;">
+              <span>Detalle de la orden</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-price" style="padding:5px 0;border-bottom:1px solid #f5f5f5;">
+              <span>Método de pago</span>
+            </td>
+            <td class="text-price text-right" style="padding:5px 0;border-bottom:1px solid #f5f5f5;text-align:right;">
+              <span>{{content.wayPayment.name}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-price" style="padding:5px 0;border-bottom:1px solid #f5f5f5;">
+              <span class="bold" style="font-weight:900;">Subtotal</span>
+            </td>
+            <td class="text-price text-right" style="padding:5px 0;border-bottom:1px solid #f5f5f5;text-align:right;">
+              <span class="bold" style="font-weight:900;">$/{{content.subtotal}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-price" style="padding:5px 0;border-bottom:1px solid #f5f5f5;">
+              <span>Envío</span>
+            </td>
+            {{#if content.deliveryPrice}}
+            
+            <td class="text-price text-right" style="padding:5px 0;border-bottom:1px solid #f5f5f5;text-align:right;">
+              <span>S/{{content.deliveryPrice}}</span>
+            </td>
+            {{else}}
+            
+            <td class="text-price text-right" style="padding:5px 0;border-bottom:1px solid #f5f5f5;text-align:right;">
+              <span>$/0</span>
+            </td>
+            {{/if}}
+                    </tr>
+          <tr class="pab-30" style="padding-bottom:30px;">
+            <td class="text-price" style="padding:5px 0;border-bottom:1px solid #f5f5f5;">
+              <span class="bold text-orange" style="font-weight:900;color:#F42B17;">Total</span>
+            </td>
+            <td class="text-price text-right" style="padding:5px 0;border-bottom:1px solid #f5f5f5;text-align:right;">
+              <span class="bold text-orange" style="font-weight:900;color:#F42B17;">$ {{content.total}}</span>
+            </td>
+          </tr>
+          <tr class="number-order" style="background-color:#f5f5f5;">
+            <td colspan="2" class="td-text center" style="text-align:center;height:29px;">
+              <span>Dirección de entrega</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="pt-20" colspan="2" style="padding-top:20px;">
+              {{#if content.flagStore}}
+                           <span class="bold" style="font-weight:900;">{{content.tienda}}</span>
+              {{else}}
+                           <span class="bold" style="font-weight:900;">{{content.deliveryAddress.address}}</span>
+              {{/if}}
+              
+              <p>Persona responsable: {{content.responsiblePickUp.name}}</p>
+              <p>Documento de Identidad: {{content.responsiblePickUp.dni}}</p>
+              <p>Teléfono: {{content.responsiblePickUp.phone}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="pt-20 center" style="text-align:center;padding-top:20px;">
+              <span class="bold f-12" style="font-weight:900;font-size:12px;">Para tu seguridad y privacidad:</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="pt-20 center" style="text-align:center;padding-top:20px;">
+              <p>Esta dirección de correo fue utilizada para realizar una 
+                              compra en ADS PRUEBAS. Para dar de baja, cambiar tu dirección 
+                              de correo o reportar el uso no autorizado de la misma, porfavor contáctanos, 
+                              en caso contrario entenderemos que estás de acuerdo en que nos comiquemos 
+                              contigo en esta dirección de correo para cualquier asunto relacionado con tu compra en MERKATO.
+                               No olvides incluir tu número de pedido para brindarte un mejor servicio.</p>
+              <p>Recuerda que en ADS PRUEBAS nunca solicitaremos por ningún medio números de tarjeta o claves 
+                                personales. Por favor, no compartas esta información.</p>
+              <p>Este mensaje podría contener infomación confidencial, si tú no eres el destinatario por favor reporta esta situación a los 
+                                datos de contacto aquí descritos y borrálo sin tener copia alguna .</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

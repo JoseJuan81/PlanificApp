@@ -11,17 +11,48 @@
         <fieldset class="mb-4 px-4">
           <InputField
             invisible
+            autocomplete="off"
             class="task-name"
-            :validation="false"
+            :validation="$v.task.title.$invalid"
             placeholder="nombre de la actividad"
             v-model="task.title"
           >
-            título requerido
+            <span v-if="!$v.task.title.$required">título requerido</span>
           </InputField>
         </fieldset>
       </div>
 
-      <div class="collapsing-wrapper">
+      <div role="presupuesto" class="collapsing-wrapper">
+        <button
+          type="button"
+          class="collapsing-activator"
+          @click="hideBudgetContainer = !hideBudgetContainer"
+        >
+          <div class="w-full flex items-center justify-between">
+            <h3 class="font-bold text-primary-dark">Presupuesto</h3>
+            <span class="text-gray-medium">{{task.budget}}</span>
+          </div>
+        </button>
+        <div
+          data-cy="check-list-container"
+          :class="[
+            'collapsing-container',
+            { 'collapsing-container-collapsed': hideBudgetContainer },
+          ]"
+        >
+          <form class="mb-4" autocomplete="off">
+            <fieldset>
+              <InputField
+                placeholder="Monto presupuesto"
+                :validation="false"
+                v-model.number="task.budget"
+              />
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+      <div role="gastos" class="collapsing-wrapper">
         <button
           type="button"
           class="collapsing-activator"
@@ -72,7 +103,7 @@
               :key="exIndex"
               class="flex justify-between items-center"
             >
-            <h3 class="font-bold text-2xl text-primary-dark">{{expense.amount}}</h3>
+            <h3 class="font-bold text-2xl text-warning-dark">{{expense.amount}}</h3>
             <h4 class="ml-4">{{expense.title}}</h4>
             <div class="flex items-center justify-end my-2">
               <button type="button" class="btn-mini-icon">
@@ -91,7 +122,7 @@
         </div>
       </div>
 
-      <div class="collapsing-wrapper">
+      <div role="checklist" class="collapsing-wrapper">
         <button
           type="button"
           class="collapsing-activator"
@@ -131,7 +162,7 @@
         </div>
       </div>
 
-      <div class="collapsing-wrapper">
+      <div role="subactividades" class="collapsing-wrapper">
         <button
           type="button"
           class="collapsing-activator"
@@ -157,7 +188,7 @@
         </div>
       </div>
 
-      <div class="collapsing-wrapper">
+      <div role="asignar-actividad" class="collapsing-wrapper">
         <button
           type="button"
           class="collapsing-activator"
@@ -188,7 +219,7 @@
         </div>
       </div>
 
-      <div class="collapsing-wrapper">
+      <div role="tiempo-ejecución" class="collapsing-wrapper">
         <button
           data-cy="duration-container"
           class="collapsing-activator"
@@ -207,7 +238,7 @@
         </div>
       </div>
 
-      <div class="collapsing-wrapper">
+      <div role="etiquetas" class="collapsing-wrapper">
         <button
           class="collapsing-activator"
           type="button"
@@ -231,7 +262,7 @@
         </div>
       </div>
 
-      <div class="collapsing-wrapper">
+      <div role="actividades-relacionadas" class="collapsing-wrapper">
         <button
           class="collapsing-activator"
           type="button"
@@ -255,7 +286,7 @@
         </div>
       </div>
 
-      <div class="collapsing-wrapper">
+      <div role="comentarios" class="collapsing-wrapper">
         <button
           class="collapsing-activator"
           type="button"
@@ -285,6 +316,8 @@
       <button
         type="button"
         class="btn btn-primary mx-4"
+        :disabled="$v.$invalid"
+        @click="saveTask"
       >Guardar</button>
     </section>
   </div>
@@ -302,16 +335,17 @@ import LabelsField from '@/components/common/LabelsField.vue';
 import SelectorField from '@/components/common/SelectorField.vue';
 import TaskDuration from '@/components/common/TaskDuration.vue';
 import TextAreaField from '@/components/common/TextAreaField.vue';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 
 function created() {
   const { id } = this.$route.params;
   this.isEditing = Boolean(id);
-  this.task = this.isEditing ? this.editingTask : this.emptyTask;
+  this.task = this.isEditing ? this.editingTask : this.task;
 }
 
 function addExpense() {
   if (this.expense.amount && this.expense.title) {
-    this.task.expenses.push(this.expense);
+    this.task.expenses = [].concat(this.task.expenses, { ...this.expense });
     this.cleanExpenseObject();
     this.$refs.expenseAmount.$refs.inputField.focus();
   }
@@ -342,6 +376,30 @@ function onCancel() {
   this.$router.push({ name: 'tree-list' });
 }
 
+function saveTask() {
+  this.$store.dispatch('HierarchyTask/save', this.task);
+  this.task = { ...this.emptyTask };
+}
+
+function validations() {
+  return {
+    task: {
+      title: { required },
+      time: {
+        endDate: {
+          required: requiredIf(() => this.task.time.duration || this.task.time.initDate),
+        },
+        duration: {
+          required: requiredIf(() => this.task.time.endDate || this.task.time.initDate),
+        },
+        initDate: {
+          required: requiredIf(() => this.task.time.duration || this.task.time.endDate),
+        },
+      },
+    },
+  };
+}
+
 function data() {
   return {
     expense: {
@@ -350,6 +408,7 @@ function data() {
     },
     isEditing: false,
     hideAsignedContainer: true,
+    hideBudgetContainer: true,
     hideCheckListContainer: true,
     hideCommetsContainer: true,
     hideExpenseListContainer: true,
@@ -359,6 +418,7 @@ function data() {
     hideTimeDefinition: true,
     task: {
       asigned: '',
+      budget: 0,
       checkList: [],
       comments: '',
       expenses: [],
@@ -404,7 +464,9 @@ export default {
     cleanExpenseObject,
     deleteExpense,
     onCancel,
+    saveTask,
   },
+  validations,
 };
 </script>
 <style lang="scss">
@@ -478,7 +540,11 @@ export default {
 
 .task-name {
   .invisible-input {
-    @apply text-3xl font-bold text-gray-base;
+    @apply text-2xl font-bold text-gray-base;
+
+    &:focus {
+      @apply bg-$white;
+    }
   }
 }
 
