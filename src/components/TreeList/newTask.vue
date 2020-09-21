@@ -494,7 +494,7 @@ export default {
 }
 .collapsing-container {
   @apply duration-300;
-  @apply overflow-hidden;
+  @apply overflow-auto;
   @apply px-4;
   max-height: 30rem;
 }

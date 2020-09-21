@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { mergeObjects } from 'functionallibrary';
 
 const state = () => ({
@@ -22,6 +23,9 @@ const state = () => ({
   },
 });
 const actions = {
+  edit(store, task) {
+    store.commit('SET_DETAIL', task);
+  },
   async save(store, task) {
     const newTask = mergeObjects(store.state.newTaskDefault, task);
     store.commit('SET_NEW_TASK', newTask);
@@ -29,6 +33,9 @@ const actions = {
 };
 const getters = {};
 const mutations = {
+  SET_DETAIL(st, task) {
+    st.detail = { ...task };
+  },
   SET_NEW_TASK(st, newTask) {
     st.list.push(newTask);
   },
