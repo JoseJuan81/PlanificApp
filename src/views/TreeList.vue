@@ -44,7 +44,7 @@
       :nodes="list"
       v-slot="{ node, isOpen }"
     >
-      <TaskNode :node="node" :is-open="isOpen" />
+      <TaskNode :node="node" :is-open="isOpen" :flag-tree="flagTree" />
     </tree-nodes-dl>
   </div>
 </template>

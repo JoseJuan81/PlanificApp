@@ -1,5 +1,14 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
-// const plugin = require('tailwindcss/plugin');
+const plugin = require('tailwindcss/plugin');
+
+function basis({ addUtilities }) {
+  const Basis = {
+    '.basis-10': {
+      flexBasis: '10%',
+    },
+  };
+  addUtilities(Basis);
+}
 /*
 ** TailwindCSS Configuration File
 **
@@ -10,7 +19,6 @@ module.exports = {
   important: true,
   theme: {
     extend: {
-      fill: (theme) => theme('colors'),
       colors: {
         error: {
           lightest: '#FDEDED',
@@ -68,6 +76,7 @@ module.exports = {
         center: true,
         padding: '1rem',
       },
+      fill: (theme) => theme('colors'),
       lineHeight: (theme) => theme('spacing'),
       minWidth: {
         movil: '32rem',
@@ -87,7 +96,9 @@ module.exports = {
     fontSize: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
     margin: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
   },
-  plugins: [],
+  plugins: [
+    plugin(basis),
+  ],
   purge: {
     // Learn more on https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css
     enabled: process.env.NODE_ENV === 'production',

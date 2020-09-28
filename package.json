@@ -11,10 +11,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "d3": "^6.1.1",
     "date-fns": "^2.16.1",
     "functionallibrary": "^2.0.9",
     "register-service-worker": "^1.7.1",
-    "tailwindcss": "^1.6.2",
+    "tailwindcss": "^1.8.10",
     "tree-nodes-dl": "^0.3.2",
     "user-profile-layout": "^1.0.1",
     "vue": "^2.6.11",
