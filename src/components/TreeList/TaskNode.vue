@@ -6,28 +6,13 @@
     data-cy="treeNodeSlot"
   >
     <div class="flex-auto">
-      <div class="task-node-content">
-        <div class="flex items-center flex-auto">
-          <span class="mr-2" v-if="!isOpen && node.inner && flagTree">+</span>
-          <span class="mr-2" v-if="isOpen && node.inner && flagTree">-</span>
-          <h2
-            :class="[{'lm': !node.inner }, 'text-left hover:text-gray-darkest']"
-          >{{node.title}}</h2>
-        </div>
-
-        <div
-          v-if="node.checkList.length > 0"
-          ref="advance"
-          class="text-gray-medium flex items-start h-16 basis-10 mx-1"
-        ></div>
-
-        <div
-          v-if="this.node.expenses.length > 0"
-          ref="expenses"
-          class="text-gray-medium text-base flex items-start h-16 basis-10 mx-1"
-        ></div>
+      <div class="flex items-center">
+        <span class="mr-2" v-if="!isOpen && node.inner && flagTree">+</span>
+        <span class="mr-2" v-if="isOpen && node.inner && flagTree">-</span>
+        <h2
+          :class="[{'lm': !node.inner }, 'text-left hover:text-gray-darkest']"
+        >{{node.title}}</h2>
       </div>
-
       <div class="flex justify-start flex-wrap text-base text-gray-lightest font-bold">
         <span
           class="m-1 rounded bg-gray-base px-1"
@@ -36,6 +21,18 @@
         >{{label}}</span>
       </div>
     </div>
+
+    <div
+      v-if="node.checkList.length > 0"
+      ref="advance"
+      class="text-gray-medium flex items-start h-12 basis-10 mx-1"
+    ></div>
+
+    <div
+      v-if="this.node.expenses.length > 0"
+      ref="expenses"
+      class="text-gray-medium text-base flex items-start h-12 basis-10 mx-1"
+    ></div>
 
     <div class="flex items-center">
       <button type="button" class="btn-mini-icon" @click.stop="editTask">
@@ -53,12 +50,18 @@ import Bars from '@/components/graphics/Bars';
 import { reduce } from 'functionallibrary';
 
 function mounted() {
+  this.loadData();
+}
+
+function loadData() {
   this.createDonut();
   this.createBars();
 }
 
 function editTask() {
   this.$store.dispatch('HierarchyTask/edit', this.node);
+  const id = this.node.id || 1;
+  this.$router.push({ name: 'edit-hierarchy-task', params: { id } });
 }
 
 function createDonut() {
@@ -125,6 +128,7 @@ export default {
     createBars,
     createDonut,
     editTask,
+    loadData,
   },
   mounted,
   props: {
@@ -147,9 +151,5 @@ export default {
 .task-node-container {
     @apply cursor-pointer;
     @apply flex items-center;
-
-    .task-node-content {
-      @apply flex items-center;
-    }
 }
 </style>

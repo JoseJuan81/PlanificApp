@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { mergeObjects } from 'functionallibrary';
+import { equality, findIndex, mergeObjects } from 'functionallibrary';
 
 const state = () => ({
   detail: {},
@@ -30,6 +30,12 @@ const actions = {
     const newTask = mergeObjects(store.state.newTaskDefault, task);
     store.commit('SET_NEW_TASK', newTask);
   },
+  async update(store, task) {
+    const id = task.id || 1;
+    const getIndexIn = findIndex(equality('id', id));
+    const index = getIndexIn(store.state.list);
+    store.commit('UPDATE_TASK', { index, task });
+  },
 };
 const getters = {};
 const mutations = {
@@ -38,6 +44,9 @@ const mutations = {
   },
   SET_NEW_TASK(st, newTask) {
     st.list.push(newTask);
+  },
+  UPDATE_TASK(st, { index, task }) {
+    st.list.splice(index, 1, task);
   },
 };
 

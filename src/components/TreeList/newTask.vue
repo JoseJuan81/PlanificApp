@@ -338,9 +338,15 @@ import TextAreaField from '@/components/common/TextAreaField.vue';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 
 function created() {
+  this.setTask();
+}
+
+function setTask() {
   const { id } = this.$route.params;
   this.isEditing = Boolean(id);
-  this.task = this.isEditing ? this.editingTask : this.task;
+  if (this.isEditing) {
+    this.task = this.editingTask;
+  }
 }
 
 function addExpense() {
@@ -377,8 +383,18 @@ function onCancel() {
 }
 
 function saveTask() {
-  this.$store.dispatch('HierarchyTask/save', this.task);
+  if (this.isEditing) {
+    this.$store.dispatch('HierarchyTask/update', this.task);
+    this.$router.push({ name: 'new-hierarchy-task' });
+  } else {
+    this.task.id = 1;
+    this.$store.dispatch('HierarchyTask/save', this.task);
+  }
   this.task = { ...this.emptyTask };
+}
+
+function routeChange() {
+  this.setTask();
 }
 
 function validations() {
@@ -465,8 +481,12 @@ export default {
     deleteExpense,
     onCancel,
     saveTask,
+    setTask,
   },
   validations,
+  watch: {
+    '$route.fullPath': routeChange,
+  },
 };
 </script>
 <style lang="scss">
