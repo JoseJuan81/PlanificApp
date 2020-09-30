@@ -3,17 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build": "npm run build:app && npm run build:lambda",
+    "build:app": "vue-cli-service build",
+    "build:lambda": "netlify-lambda build lambda",
+    "cy:open": "cypress open",
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "dev:server": "netlify dev",
     "lint": "vue-cli-service lint",
-    "test": "cypress run",
-    "cy:open": "cypress open"
+    "start:lambda": "NODE_ENV=development netlify-lambda serve lambda",
+    "test": "cypress run"
   },
   "dependencies": {
+    "@apollo/client": "^3.2.1",
+    "apollo-server-lambda": "^2.18.1",
     "core-js": "^3.6.5",
     "d3": "^6.1.1",
     "date-fns": "^2.16.1",
     "functionallibrary": "^2.0.9",
+    "graphql": "^15.3.0",
+    "netlify-lambda": "^2.0.1",
     "register-service-worker": "^1.7.1",
     "tailwindcss": "^1.8.10",
     "tree-nodes-dl": "^0.3.2",

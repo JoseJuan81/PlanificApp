@@ -4,7 +4,7 @@ enum TaskStatus {
   pendiente = 'PEND',
   proceso = 'PROCE',
   cancelado = 'CANC',
-  retrasado = 'PROCE-RE',
+  retrasado = 'RETRA',
 }
 interface TaskProgress<Type> {
   done: Type,
@@ -15,8 +15,19 @@ interface TaskTime {
   duration: number,
   initDate: Date,
 }
+enum TaskRelatedConditions {
+  finfin = 'EE',
+  fininicio = 'ES',
+  inicioinicio = 'SS',
+  iniciofin = 'SE'
+}
+
+interface TaskRelated {
+  condition: TaskRelatedConditions,
+  id: ID,
+}
 interface Task {
-  asigned: string,
+  asigned: ID,
   balance: number,
   budget: number,
   children: Array<ID>,
@@ -28,10 +39,10 @@ interface Task {
   labels: Array<string>,
   links: Array<string>,
   name: string,
+  parentTaskId: ID,
   progress: TaskProgress<number>,
-  relatedTasks: Array<ID>,
+  relatedTasks: Array<TaskRelated>,
   spent: number,
   status: TaskStatus,
-  subTaskOf: ID,
   time: TaskTime,
 }
