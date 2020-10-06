@@ -69131,7 +69131,7 @@ if (hasSymbols()) {
 var _taggedTemplateLiteral = __webpack_require__(/*! ../node_modules/@babel/runtime/helpers/taggedTemplateLiteral */ "../node_modules/@babel/runtime/helpers/taggedTemplateLiteral.js");
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  type Query {\n    hello: String\n    tasks: [Task]!\n  }\n  type Task {\n    asigned: ID\n    balance: Float\n    budget: Float\n    children: [ID]!\n    comments: [String]!\n    expenses: [ID]!\n    flagMaster: Boolean\n    flagSimpleTask: Boolean\n    id: ID!\n    labels: [String]!\n    links: [String]!\n    name: String\n    parentTaskId: ID\n    progress: TaskProgress\n    relatedTask: [TaskRelated]!\n    spent: Float\n    status: TaskStatus\n    time: TaskTime\n  }\n  type TaskProgress {\n    done: Int\n    total: Int\n  }\n  enum TaskStatus {\n    FIN\n    PEND\n    PROCE\n    CANC\n    RETRA\n  }\n  type TaskTime {\n    endDate: String\n    duration: Float\n    initDate: String\n  }\n  type TaskRelated {\n    condition: TaskRelatedConditions\n    id: ID\n  }\n  enum TaskRelatedConditions {\n    EE\n    ES\n    SS\n    SE\n  }\n"]);
+  var data = _taggedTemplateLiteral(["\n  type Query {\n    hello: String\n    tasks: [Task]!\n  }\n  type Task {\n    asigned: ID\n    balance: Float\n    budget: Float\n    children: [Task]!\n    comments: [String]!\n    expenses: [Expense]!\n    flagMaster: Boolean\n    flagSimpleTask: Boolean\n    id: ID!\n    labels: [String]!\n    links: [String]!\n    name: String\n    parentTask: Task\n    progress: TaskProgress\n    relatedTask: [TaskRelated]!\n    spent: Float\n    status: TaskStatus\n    time: TaskTime\n  }\n  type TaskProgress {\n    done: Int\n    total: Int\n  }\n  enum TaskStatus {\n    FIN\n    PENDIENTE\n    EJECUCION\n    CANCELADO\n    RETRASADO\n  }\n  type TaskTime {\n    endDate: String\n    duration: Float\n    initDate: String\n  }\n  type TaskRelated {\n    condition: TaskRelatedConditions\n    task: Task\n  }\n  enum TaskRelatedConditions {\n    EE\n    ES\n    SS\n    SE\n  }\n  type Expense {\n    amount: Float\n    billingNumber: String\n    description: String\n    image: String\n    name: String\n    place: String\n  }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -69151,7 +69151,41 @@ var resolvers = {
       return 'Hello, world!';
     },
     tasks: function tasks(parent, args, context) {
-      return 'Listado de actividades';
+      return [{
+        balance: 66.66,
+        budget: 1200,
+        children: [23, 24],
+        comments: ['Comentario 1', 'Comentario 2'],
+        expenses: [34, 33],
+        flagMaster: true,
+        flagSimpleTask: false,
+        id: 'dsfg45gdg345',
+        labels: ['Etiqueta 1', 'Etiqueta 2'],
+        links: ['Enlace 1', 'Enlace 2'],
+        name: 'Actividad de prueba',
+        parentTask: 55,
+        progress: {
+          done: 3,
+          total: 5
+        },
+        relatedTask: [{
+          condition: 'EE',
+          id: 43
+        }],
+        spent: 554,
+        status: 'EJECUCION',
+        time: {
+          endData: '2020-10-10',
+          duration: 3,
+          initDate: '2020-10-07'
+        }
+      }];
+    }
+  },
+  Expense: {
+    name: function name(parent, args, context) {
+      console.log('Expense', parent);
+      return "Gasto ".concat(parent);
     }
   }
 };
