@@ -58,6 +58,26 @@ module.exports.getTypeDefs = function getTypeDefs(gql) {
         name: String
         place: String
     }
+
+    type Mutation {
+        createTask(task: CreateTaskInput): CreateTaskMutationResponse
+    }
+    input CreateTaskInput {
+        name: String!
+        budget: Float
+    }
+
+    interface MutationResponse {
+        code: String!
+        success: Boolean!
+        message: String!
+    }
+    type CreateTaskMutationResponse implements MutationResponse {
+        code: String!
+        success: Boolean!
+        message: String!
+        task: Task!
+    }
   `;
   return typeDefs;
 }

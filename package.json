@@ -10,7 +10,7 @@
     "dev": "vue-cli-service serve",
     "dev:server": "netlify dev",
     "lint": "vue-cli-service lint",
-    "start:lambda": "NODE_ENV=development netlify-lambda serve lambda",
+    "start": "NODE_ENV=development netlify-lambda serve lambda",
     "test": "cypress run"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "functionallibrary": "^2.0.9",
     "graphql": "^15.3.0",
     "mongodb": "^3.6.2",
+    "mongoose": "^5.10.8",
     "netlify-lambda": "^2.0.1",
     "register-service-worker": "^1.7.1",
     "tailwindcss": "^1.8.10",

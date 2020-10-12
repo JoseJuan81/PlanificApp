@@ -1,9 +1,11 @@
-require('dotenv').config();
+import { ApolloServer, gql } from 'apollo-server-lambda';
+import { getTypeDefs } from './typeDef/task';
+import { getResolvers } from './resolvers/tasks';
+import connectToMongoDB from './mongoDb/mongooseConnection';
+import taskModel from './api/mongoose/taskSchema';
 
-const { ApolloServer, gql } = require('apollo-server-lambda');
-const { getTypeDefs } = require('./typeDef/task');
-const { getResolvers } = require('./resolvers/tasks');
-const connectToMongoDB = require('./mongoDb/taskDbConnection');
+require('dotenv').config();
+// const connectToMongoDB = require('./mongoDb/mongoConnection');
 
 exports.handler = async function (event, context) {
   const db = await connectToMongoDB();
@@ -13,7 +15,13 @@ exports.handler = async function (event, context) {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: (req) => {
+      return {
+        taskModel,
+      }
+    },
   });
+
   return new Promise((yay, nay) => {
     const cb = (err, args) => (err ? nay(err) : yay(args));
     server.createHandler()(event, context, cb);
