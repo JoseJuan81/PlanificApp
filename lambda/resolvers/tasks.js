@@ -1,9 +1,63 @@
-module.exports.getResolvers = function getResolvers() {
+import { isEmpty } from 'functionallibrary';
+import { ApolloError } from 'apollo-server-lambda';
+
+export default function getResolvers() {
   const resolvers = {
     Query: {
-      tasks: async (parent, args, { taskModel }) => {
-        const tasks = await taskModel.find();
+      tasks: async (parent, args, { models }) => {
+        const { TaskModel } = models;
+        const tasks = await TaskModel.find();
         return tasks;
+      },
+    },
+    Mutation: {
+      createTask: async (_, { task }, { models }) => {
+        const { ExpenseModel, TaskModel } = models;
+        try {
+          const {
+            expenses, name, links, checkList,
+          } = task;
+          /**
+           * Crear tarea en BD
+           */
+          const taskCreated = await TaskModel.create({ name, links, checkList });
+          /**
+           * Agregar id de actividad en cada gasto
+           * Crear gastos
+           */
+          let newExpenses = [];
+          if (!isEmpty(expenses)) {
+            const relatedExpenses = taskCreated.addTaskIdToExpenses(expenses, taskCreated.id);
+            try {
+              newExpenses = await ExpenseModel.create(relatedExpenses);
+            } catch (error) {
+              console.log('Error al crear gastos relacionados a un actividad', error);
+              return new ApolloError(
+                'Error al crear gastos asociados a nueva actividad',
+                400,
+              );
+            }
+            /**
+             * Actualizar Actividad
+            */
+            taskCreated.expenses = taskCreated.getExpensesIds(newExpenses);
+            taskCreated.spent = taskCreated.calculateTotalSpent(expenses);
+          }
+          await taskCreated.save();
+          return {
+            code: 200,
+            success: true,
+            message: `Tarea: ${taskCreated.name} creada exitosamente`,
+            task: taskCreated,
+          };
+        } catch (error) {
+          console.log('error al crear actividad', error);
+          return {
+            code: 400,
+            success: false,
+            message: 'Crear Tarea falló',
+          };
+        }
       },
     },
     MutationResponse: {
@@ -13,23 +67,11 @@ module.exports.getResolvers = function getResolvers() {
       },
     },
     Expense: {
-      name: (parent, args, context) => {
+      title: (parent, args, context) => {
         console.log('Expense', parent);
         return `Gasto ${parent}`;
       },
     },
-    Mutation: {
-      createTask: async (_, { task }, { taskModel }) => {
-        const response = await taskModel.create(task);
-        console.log('response', response);
-        return {
-          code: 200,
-          success: true,
-          message: 'Nueva tarea',
-          task,
-        };
-      },
-    },
   };
   return resolvers;
-};
+}

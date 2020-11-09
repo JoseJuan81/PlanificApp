@@ -1,4 +1,5 @@
 import { arc, select } from 'd3';
+import { decide, forEach, getPropertysValue } from 'functionallibrary';
 
 /**
  * @param { object } $el - elemento del DOM dentro del cual se construirá la dona
@@ -32,7 +33,6 @@ class Donut {
     this.classActive = classActive;
     this.classUnActive = classUnActive;
     this.cornerRadius = cornerRadius || 0;
-    this.data = data.sort((a, b) => a[prop] - b[prop]);
     this.el = $el;
     this.innerRadius = innerRadius || 4;
     this.outerRadius = outerRadius || 15;
@@ -41,14 +41,8 @@ class Donut {
     this.scaleInnerRadius = scaleInnerRadius || 0;
     this.scaleOuterRadius = scaleOuterRadius || 0;
     this.svg = null;
-  }
 
-  init(width = 200, height = 200, viewBox = '-2.5 -21.5 5 45') {
-    this.svg = select(this.el).append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .attr('viewBox', viewBox);
-    this.createDonut();
+    this.data = this.getOrderingData(data);
   }
 
   createDonut() {
@@ -72,6 +66,27 @@ class Donut {
       .endAngle((d, i) => ((2 * Math.PI) / len) * (i + 1))
       .cornerRadius(this.cornerRadius)
       .padAngle(this.padAngle);
+  }
+
+  getOrderingData(data) {
+    const firstOrder = [];
+    const pushIntoFirstOrder = (d) => firstOrder.push(d);
+
+    const secondOrder = [];
+    const pushIntoSecondOrder = (d) => secondOrder.push(d);
+
+    const isItTrue = getPropertysValue(this.prop);
+    const order = decide(isItTrue, pushIntoSecondOrder, pushIntoFirstOrder);
+    forEach(order, data);
+    return [...firstOrder, ...secondOrder];
+  }
+
+  init(width = 200, height = 200, viewBox = '-2.5 -21.5 5 45') {
+    this.svg = select(this.el).append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('viewBox', viewBox);
+    this.createDonut();
   }
 }
 export default Donut;

@@ -1,10 +1,12 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
+require('dotenv').config();
 
 const uri = process.env.MONGO_CONNECTION;
 
 let cachedDb = null;
 
-module.exports = () => {
+export default () => {
   if (cachedDb && cachedDb.connection.readyState === 1) {
     return Promise.resolve(cachedDb);
   }

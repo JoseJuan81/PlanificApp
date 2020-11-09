@@ -6,18 +6,18 @@
           type="button"
           class="collapsing-activator"
         >
-          <h3 class="font-bold text-primary-dark">Actividad</h3>
+          <h3 class="task-form-section-title">Actividad</h3>
         </button>
         <fieldset class="mb-4 px-4">
           <InputField
             invisible
             autocomplete="off"
             class="task-name"
-            :validation="$v.task.title.$invalid"
+            :validation="$v.task.name.$invalid"
             placeholder="nombre de la actividad"
-            v-model="task.title"
+            v-model="task.name"
           >
-            <span v-if="!$v.task.title.$required">título requerido</span>
+            <span v-if="!$v.task.name.$required">título requerido</span>
           </InputField>
         </fieldset>
       </div>
@@ -29,7 +29,7 @@
           @click="hideBudgetContainer = !hideBudgetContainer"
         >
           <div class="w-full flex items-center justify-between">
-            <h3 class="font-bold text-primary-dark">Presupuesto</h3>
+            <h3 class="task-form-section-title">Presupuesto</h3>
             <span class="text-gray-medium">{{task.budget}}</span>
           </div>
         </button>
@@ -59,7 +59,7 @@
           @click="hideExpenseListContainer = !hideExpenseListContainer"
         >
           <div class="w-full flex items-center justify-between">
-            <h3 class="font-bold text-primary-dark">Gastos</h3>
+            <h3 class="task-form-section-title">Gastos</h3>
             <span class="text-gray-medium">{{totalExpense}}</span>
           </div>
         </button>
@@ -129,7 +129,7 @@
           @click="hideCheckListContainer = !hideCheckListContainer"
         >
           <div class="flex items-center justify-between w-full">
-            <h3 class="font-bold text-primary-dark">Check List</h3>
+            <h3 class="task-form-section-title">Check List</h3>
             <span v-if="checkListSummary.total" class="text-gray-medium">
               <span>{{checkListSummary.done}}</span>
               <span>/</span>
@@ -147,7 +147,7 @@
           <CheckList
             class="check-list-component"
             placeholder="Agrega un actividad"
-            prop="content"
+            prop="title"
             v-model="task.checkList"
           >
             <template v-slot:check-item="{ item }">
@@ -168,7 +168,7 @@
           class="collapsing-activator"
           @click="hideSubTaskContainer = !hideSubTaskContainer"
         >
-          <h3 class="font-bold text-primary-dark">Sub Actividades</h3>
+          <h3 class="task-form-section-title">Sub Actividades</h3>
         </button>
         <div
           data-cy="sub-task-container"
@@ -182,7 +182,7 @@
               :validation="false"
               label="Actividades:"
               :options="['carro', 'moto']"
-              v-model="task.subtasks"
+              v-model="task.subTasks"
             ></SelectorField>
           </fieldset>
         </div>
@@ -195,7 +195,7 @@
           @click="hideAsignedContainer = !hideAsignedContainer"
         >
           <div class="w-full flex items-center justify-between">
-            <h3 class="font-bold text-primary-dark">Asignar actividad</h3>
+            <h3 class="task-form-section-title">Asignar actividad</h3>
             <div>Avatar de usuarios</div>
           </div>
         </button>
@@ -226,7 +226,7 @@
           type="button"
           @click="hideTimeDefinition = !hideTimeDefinition"
         >
-          <h3 class="font-bold text-primary-dark">Tiempo de ejecución</h3>
+          <h3 class="task-form-section-title">Tiempo de ejecución</h3>
         </button>
         <div
           :class="[
@@ -244,7 +244,7 @@
           type="button"
           @click="hideLabelsContainer = !hideLabelsContainer"
         >
-          <h3 class="font-bold text-primary-dark">Etiquetas</h3>
+          <h3 class="task-form-section-title">Etiquetas</h3>
         </button>
         <div
           data-cy="labels-container"
@@ -268,7 +268,7 @@
           type="button"
           @click="hideRelatedTaskContainer = !hideRelatedTaskContainer"
         >
-          <h3 class="font-bold text-primary-dark">Actividades Relacionadas</h3>
+          <h3 class="task-form-section-title">Actividades Relacionadas</h3>
         </button>
         <div
           data-cy="related-container"
@@ -279,9 +279,9 @@
         >
           <ul class="mb-4">
             <li
-              v-for="(related, indexRe) in task.related"
+              v-for="(related, indexRe) in task.relatedTasks"
               :key="indexRe"
-            >{{related}}</li>
+            >{{related.name}}</li>
           </ul>
         </div>
       </div>
@@ -292,7 +292,7 @@
           type="button"
           @click="hideCommetsContainer = !hideCommetsContainer"
         >
-          <h3 class="font-bold text-primary-dark">Comentarios</h3>
+          <h3 class="task-form-section-title">Comentarios</h3>
         </button>
         <div
           data-cy="commets-container"
@@ -323,7 +323,9 @@
   </div>
 </template>
 <script>
-import { equality, filter } from 'functionallibrary';
+import {
+  equality, filter, getPropertysValue, isEmpty, map, reduce, setNewProperty,
+} from 'functionallibrary';
 import { mapState } from 'vuex';
 import CheckList from '@/components/common/CheckList.vue';
 import DlAddIcon from '@/components/Icons/dl-add-icon.vue';
@@ -362,11 +364,12 @@ function cleanExpenseObject() {
 }
 
 function checkListSummary() {
+  const checkList = getPropertysValue('checkList', this.task) || [];
   const done = equality('done', true);
-  const onlyDone = filter(done);
+  const onlyCheckDone = filter(done, checkList);
   return {
     total: this.task.checkList.length,
-    done: onlyDone(this.task.checkList).length,
+    done: onlyCheckDone.length || 0,
   };
 }
 
@@ -375,7 +378,12 @@ function deleteExpense(index) {
 }
 
 function totalExpense() {
-  return this.task.expenses.reduce((acc, exp) => acc + exp.amount, 0);
+  const expenses = getPropertysValue('expenses', this.task);
+  if (isEmpty(expenses)) {
+    return 0;
+  }
+  const sum = (acc, exp) => acc + exp.amount;
+  return reduce(sum, 0, expenses);
 }
 
 function onCancel() {
@@ -387,10 +395,20 @@ function saveTask() {
     this.$store.dispatch('HierarchyTask/update', this.task);
     this.$router.push({ name: 'new-hierarchy-task' });
   } else {
-    this.task.id = 1;
+    this.task = this.relatedTasksTransformation(this.task);
     this.$store.dispatch('HierarchyTask/save', this.task);
   }
   this.task = { ...this.emptyTask };
+}
+
+function relatedTasksTransformation(task) {
+  const relatedTasksArr = getPropertysValue('relatedTasks', task);
+  const relatedTaskObj = (r) => ({
+    condition: r.condition,
+    taskId: r.taskId,
+  });
+  const newRelatedTasksArr = map(relatedTaskObj, relatedTasksArr);
+  return setNewProperty('relatedTasks', newRelatedTasksArr, task);
 }
 
 function routeChange() {
@@ -400,7 +418,7 @@ function routeChange() {
 function validations() {
   return {
     task: {
-      title: { required },
+      name: { required },
       time: {
         endDate: {
           required: requiredIf(() => this.task.time.duration || this.task.time.initDate),
@@ -439,14 +457,18 @@ function data() {
       comments: '',
       expenses: [],
       labels: [],
-      related: [],
+      name: '',
+      relatedTasks: [{
+        condition: '',
+        taskId: '',
+        name: '',
+      }],
       time: {
         endDate: '',
         duration: 0,
         initDate: '',
       },
-      title: '',
-      subtasks: [],
+      subTasks: [],
     },
   };
 }
@@ -480,6 +502,7 @@ export default {
     cleanExpenseObject,
     deleteExpense,
     onCancel,
+    relatedTasksTransformation,
     saveTask,
     setTask,
   },
@@ -570,6 +593,10 @@ export default {
 
 .expense-amount {
   flex: 1 1 30%;
+}
+
+.task-form-section-title {
+  @apply font-normal text-primary-dark;
 }
 
 </style>

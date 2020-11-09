@@ -55,6 +55,10 @@ import taskListIcon from '@/components/Icons/dl-task-list-icon.vue';
 import treeTaskIcon from '@/components/Icons/dl-tree-tasks-icon.vue';
 import TaskNode from '@/components/TreeList/TaskNode.vue';
 
+function created() {
+  this.$store.dispatch('HierarchyTask/list');
+}
+
 function indentComputed() {
   return this.flagTree ? 10 : 0;
 }
@@ -84,6 +88,7 @@ export default {
     }),
     indentComputed,
   },
+  created,
   data,
   methods: {
     newTask,
@@ -125,14 +130,15 @@ export default {
 
     .slot-node-content {
       @apply border-t border-solid border-gray-light;
-      @apply duration-100;
+      @apply duration-75;
       @apply pr-3 py-2;
 
       &:hover {
         @apply bg-$white;
         @apply rounded-xl;
         @apply shadow-lg;
-        @apply transform scale-x-105;
+
+        transform: scaleX(1.015);
       }
     }
   }

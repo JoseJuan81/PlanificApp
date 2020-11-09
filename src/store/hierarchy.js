@@ -1,5 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { equality, findIndex, mergeObjects } from 'functionallibrary';
+import { equality, findIndex } from 'functionallibrary';
+
+import gqlApi from '@/Apollo';
+
+import { getHierarchyTasks } from '@/api/hierarchy/query';
+import { CreateHierarchyTaskMutation } from '@/api/hierarchy/mutation';
 
 const state = () => ({
   detail: {},
@@ -11,24 +16,40 @@ const state = () => ({
     comments: '',
     expenses: [],
     labels: [],
+    name: '',
     related: [],
     time: {
       endDate: '',
       duration: 0,
       initDate: '',
     },
-    title: '',
     subtasks: [],
     subTaskOf: null,
   },
 });
+
 const actions = {
   edit(store, task) {
     store.commit('SET_DETAIL', task);
   },
+  async list({ commit }) {
+    const { data } = await gqlApi.query(
+      getHierarchyTasks(),
+    );
+    commit('SET_LIST', data.tasks);
+  },
   async save(store, task) {
-    const newTask = mergeObjects(store.state.newTaskDefault, task);
-    store.commit('SET_NEW_TASK', newTask);
+    try {
+      const { data } = await gqlApi.mutate({
+        mutation: CreateHierarchyTaskMutation,
+        variables: {
+          CreateTaskInput: task,
+        },
+      });
+      store.commit('SET_NEW_TASK', data.createTask.task);
+    } catch (error) {
+      console.error('Error creando actividad jerarquica', error);
+    }
   },
   async update(store, task) {
     const id = task.id || 1;
@@ -37,10 +58,15 @@ const actions = {
     store.commit('UPDATE_TASK', { index, task });
   },
 };
+
 const getters = {};
+
 const mutations = {
   SET_DETAIL(st, task) {
     st.detail = { ...task };
+  },
+  SET_LIST(st, tasks) {
+    st.list = [...tasks];
   },
   SET_NEW_TASK(st, newTask) {
     st.list.push(newTask);

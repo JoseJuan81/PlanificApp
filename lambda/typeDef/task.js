@@ -1,82 +1,58 @@
-module.exports.getTypeDefs = function getTypeDefs(gql) {
+export default function getTypeDefs(gql) {
   const typeDefs = gql`
-    type Query {
-        hello: String
-        tasks: [Task]!
+    extend type Query {
+      tasks: [Task]!
     }
     type Task {
-        asigned: ID
-        balance: Float
-        budget: Float
-        children: [Task]!
-        comments: [String]!
-        expenses: [Expense]!
-        flagMaster: Boolean
-        flagSimpleTask: Boolean
-        id: ID!
-        labels: [String]!
-        links: [String]!
-        name: String
-        parentTask: Task
-        progress: TaskProgress
-        relatedTask: [TaskRelated]!
-        spent: Float
-        status: TaskStatus
-        time: TaskTime
+      asigned: ID
+      balance: Float
+      budget: Float
+      checkList: [CheckList]!
+      children: [Task]!
+      comments: [String]!
+      expenses: [Expense]!
+      flagSimpleTask: Boolean
+      id: ID!
+      labels: [String]!
+      links: [String]!
+      name: String
+      parentTask: Task
+      progress: TaskProgress
+      relatedTask: [TaskRelated]!
+      spent: Float
+      status: TaskStatus
+      subTasks: [Task]!
+      time: TaskTime
+    }
+    type CheckList {
+      done: Boolean
+      title: String
     }
     type TaskProgress {
-        done: Int
-        total: Int
-    }
-    enum TaskStatus {
-        FIN
-        PENDIENTE
-        EJECUCION
-        CANCELADO
-        RETRASADO
+      done: Int
+      total: Int
     }
     type TaskTime {
-        endDate: String
-        duration: Float
-        initDate: String
+      endDate: String
+      duration: Float
+      initDate: String
     }
     type TaskRelated {
-        condition: TaskRelatedConditions
-        task: Task
+      condition: TaskRelatedConditions
+      task: Task
+    }
+    enum TaskStatus {
+      CANCELADO
+      EJECUCION
+      FIN
+      PENDIENTE
+      RETRASADO
     }
     enum TaskRelatedConditions {
-        EE
-        ES
-        SS
-        SE
-    }
-    type Expense {
-        amount: Float
-        billingNumber: String
-        description: String
-        image: String
-        name: String
-        place: String
-    }
-
-    type Mutation {
-        createTask(task: CreateTaskInput): CreateTaskMutationResponse
-    }
-    input CreateTaskInput {
-        name: String!
-        budget: Float
-    }
-
-    interface MutationResponse {
-        code: String!
-        success: Boolean!
-        message: String!
-    }
-    type CreateTaskMutationResponse implements MutationResponse {
-        code: String!
-        success: Boolean!
-        message: String!
-        task: Task!
+      EE
+      ES
+      SS
+      SE
     }
   `;
   return typeDefs;

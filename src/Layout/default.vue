@@ -95,7 +95,7 @@ export default {
 
     .dl-section-container {
       @apply flex-auto;
-      @apply px-4;
+      @apply px-6;
     }
 
     .dl-aside-container-left,

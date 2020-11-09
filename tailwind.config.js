@@ -3,6 +3,9 @@ const plugin = require('tailwindcss/plugin');
 
 function basis({ addUtilities }) {
   const Basis = {
+    '.basis-8': {
+      flexBasis: '8%',
+    },
     '.basis-10': {
       flexBasis: '10%',
     },
@@ -77,6 +80,9 @@ module.exports = {
         padding: '1rem',
       },
       fill: (theme) => theme('colors'),
+      fontFamily: {
+        body: ['Poppins', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+      },
       lineHeight: (theme) => theme('spacing'),
       minWidth: {
         movil: '32rem',

@@ -10,8 +10,8 @@
         <span class="mr-2" v-if="!isOpen && node.inner && flagTree">+</span>
         <span class="mr-2" v-if="isOpen && node.inner && flagTree">-</span>
         <h2
-          :class="[{'lm': !node.inner }, 'text-left hover:text-gray-darkest']"
-        >{{node.title}}</h2>
+          :class="[{'lm': !node.inner }, 'node-title']"
+        >{{node.name}}</h2>
       </div>
       <div class="flex justify-start flex-wrap text-base text-gray-lightest font-bold">
         <span
@@ -23,15 +23,15 @@
     </div>
 
     <div
-      v-if="node.checkList.length > 0"
+      v-if="existCheckList"
       ref="advance"
-      class="text-gray-medium flex items-start h-12 basis-10 mx-1"
+      class="text-gray-medium flex items-start h-12 basis-8 mx-1"
     ></div>
 
     <div
-      v-if="this.node.expenses.length > 0"
+      v-if="existExpenses"
       ref="expenses"
-      class="text-gray-medium text-base flex items-start h-12 basis-10 mx-1"
+      class="text-gray-medium text-base flex items-start h-12 basis-8 mx-1"
     ></div>
 
     <div class="flex items-center">
@@ -47,15 +47,19 @@
 import DlDetailsIcon from '@/components/Icons/dl-details-icon.vue';
 import Donut from '@/components/graphics/Donuts';
 import Bars from '@/components/graphics/Bars';
-import { reduce } from 'functionallibrary';
+import { getPropertysValue, isEmpty } from 'functionallibrary';
 
 function mounted() {
   this.loadData();
 }
 
 function loadData() {
-  this.createDonut();
-  this.createBars();
+  if (this.existExpenses) {
+    this.createBars();
+  }
+  if (this.existCheckList) {
+    this.createDonut();
+  }
 }
 
 function editTask() {
@@ -78,19 +82,25 @@ function createBars() {
 }
 
 function getTotalExpensesAndBudget() {
-  const sum = (total, expense) => total + expense.amount;
-  const expenses = reduce(sum, 0, this.node.expenses);
   return [
-    { active: true, title: 'expenses', value: expenses },
-    { active: false, title: 'budget', value: this.node.budget },
+    { active: true, title: 'expenses', value: this.node.spent },
+    { active: false, title: 'budget', value: this.node.budget || 5 },
   ];
+}
+
+function existExpenses() {
+  return !isEmpty(getPropertysValue('expenses', this.node));
+}
+
+function existCheckList() {
+  return !isEmpty(getPropertysValue('checkList', this.node));
 }
 
 function data() {
   return {
     barsOptions: {
       activeProp: 'active',
-      classActive: 'fill-warning-dark',
+      classActive: 'fill-error-medium',
       classUnActive: 'fill-gray-light hover:fill-gray-medium',
       data: [],
       margin: {
@@ -122,6 +132,8 @@ export default {
   },
   computed: {
     getTotalExpensesAndBudget,
+    existCheckList,
+    existExpenses,
   },
   data,
   methods: {
@@ -151,5 +163,15 @@ export default {
 .task-node-container {
     @apply cursor-pointer;
     @apply flex items-center;
+    @apply text-gray-base font-normal;
+
+    .node-title {
+      @apply text-gray-base text-left font-thin;
+
+    }
+
+    &:hover .node-title {
+      @apply font-normal;
+    }
 }
 </style>
