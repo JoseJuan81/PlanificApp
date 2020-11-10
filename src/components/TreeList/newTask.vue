@@ -13,6 +13,7 @@
             invisible
             autocomplete="off"
             class="task-name"
+            ref="taskName"
             :validation="$v.task.name.$invalid"
             placeholder="nombre de la actividad"
             v-model="task.name"
@@ -26,7 +27,7 @@
         <button
           type="button"
           class="collapsing-activator"
-          @click="hideBudgetContainer = !hideBudgetContainer"
+          @click="sectionActivator('hideBudgetContainer', 'budgetInput.inputField')"
         >
           <div class="w-full flex items-center justify-between">
             <h3 class="task-form-section-title">Presupuesto</h3>
@@ -45,6 +46,7 @@
               <InputField
                 placeholder="Monto presupuesto"
                 :validation="false"
+                ref="budgetInput"
                 v-model.number="task.budget"
               />
             </fieldset>
@@ -56,7 +58,7 @@
         <button
           type="button"
           class="collapsing-activator"
-          @click="hideExpenseListContainer = !hideExpenseListContainer"
+          @click="sectionActivator('hideExpenseListContainer', 'expenseAmount.inputField')"
         >
           <div class="w-full flex items-center justify-between">
             <h3 class="task-form-section-title">Gastos</h3>
@@ -126,7 +128,7 @@
         <button
           type="button"
           class="collapsing-activator"
-          @click="hideCheckListContainer = !hideCheckListContainer"
+          @click="sectionActivator('hideCheckListContainer', 'checkListTitle.checkListTitle')"
         >
           <div class="flex items-center justify-between w-full">
             <h3 class="task-form-section-title">Check List</h3>
@@ -148,6 +150,7 @@
             class="check-list-component"
             placeholder="Agrega un actividad"
             prop="title"
+            ref="checkListTitle"
             v-model="task.checkList"
           >
             <template v-slot:check-item="{ item }">
@@ -196,7 +199,7 @@
         >
           <div class="w-full flex items-center justify-between">
             <h3 class="task-form-section-title">Asignar actividad</h3>
-            <div>Avatar de usuarios</div>
+            <small>Avatar de usuarios</small>
           </div>
         </button>
         <div
@@ -224,7 +227,7 @@
           data-cy="duration-container"
           class="collapsing-activator"
           type="button"
-          @click="hideTimeDefinition = !hideTimeDefinition"
+          @click="sectionActivator('hideTimeDefinition', 'taskDuration.duration.inputField')"
         >
           <h3 class="task-form-section-title">Tiempo de ejecución</h3>
         </button>
@@ -234,7 +237,7 @@
             { 'collapsing-container-collapsed': hideTimeDefinition },
           ]"
         >
-          <TaskDuration v-model="task.time"/>
+          <TaskDuration ref="taskDuration" v-model="task.time"/>
         </div>
       </div>
 
@@ -242,7 +245,7 @@
         <button
           class="collapsing-activator"
           type="button"
-          @click="hideLabelsContainer = !hideLabelsContainer"
+          @click="sectionActivator('hideLabelsContainer', 'etiquetas.input')"
         >
           <h3 class="task-form-section-title">Etiquetas</h3>
         </button>
@@ -255,6 +258,7 @@
         >
           <fieldset class="mb-4">
             <LabelsField
+              ref="etiquetas"
               placeholder="Etiquetas..."
               v-model="task.labels"
             />
@@ -290,7 +294,7 @@
         <button
           class="collapsing-activator"
           type="button"
-          @click="hideCommetsContainer = !hideCommetsContainer"
+          @click="sectionActivator('hideCommetsContainer', 'comments.textarea')"
         >
           <h3 class="task-form-section-title">Comentarios</h3>
         </button>
@@ -302,7 +306,7 @@
           ]"
         >
           <fieldset class="mb-4">
-            <TextAreaField v-model="task.commets"/>
+            <TextAreaField ref="comments" v-model="task.commets"/>
           </fieldset>
         </div>
       </div>
@@ -327,6 +331,7 @@ import {
   equality, filter, getPropertysValue, isEmpty, map, reduce, setNewProperty,
 } from 'functionallibrary';
 import { mapState } from 'vuex';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 import CheckList from '@/components/common/CheckList.vue';
 import DlAddIcon from '@/components/Icons/dl-add-icon.vue';
 import DlCheckIcon from '@/components/Icons/dl-check-icon.vue';
@@ -337,10 +342,11 @@ import LabelsField from '@/components/common/LabelsField.vue';
 import SelectorField from '@/components/common/SelectorField.vue';
 import TaskDuration from '@/components/common/TaskDuration.vue';
 import TextAreaField from '@/components/common/TextAreaField.vue';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { autoFocus } from '@/helpers';
 
-function created() {
+function mounted() {
   this.setTask();
+  autoFocus(this, 'taskName.inputField');
 }
 
 function setTask() {
@@ -355,7 +361,7 @@ function addExpense() {
   if (this.expense.amount && this.expense.title) {
     this.task.expenses = [].concat(this.task.expenses, { ...this.expense });
     this.cleanExpenseObject();
-    this.$refs.expenseAmount.$refs.inputField.focus();
+    autoFocus(this, 'expenseAmount.inputField');
   }
 }
 
@@ -413,6 +419,15 @@ function relatedTasksTransformation(task) {
 
 function routeChange() {
   this.setTask();
+}
+
+function sectionActivator(flagSection, ref) {
+  this[flagSection] = !this[flagSection];
+  if (!this[flagSection]) {
+    this.$nextTick(
+      autoFocus(this, ref),
+    );
+  }
 }
 
 function validations() {
@@ -495,7 +510,6 @@ export default {
     checkListSummary,
     totalExpense,
   },
-  created,
   data,
   methods: {
     addExpense,
@@ -504,8 +518,10 @@ export default {
     onCancel,
     relatedTasksTransformation,
     saveTask,
+    sectionActivator,
     setTask,
   },
+  mounted,
   validations,
   watch: {
     '$route.fullPath': routeChange,
@@ -583,7 +599,7 @@ export default {
 
 .task-name {
   .invisible-input {
-    @apply text-2xl font-bold text-gray-base;
+    @apply text-2xl font-normal text-gray-base;
 
     &:focus {
       @apply bg-$white;
@@ -596,7 +612,7 @@ export default {
 }
 
 .task-form-section-title {
-  @apply font-normal text-primary-dark;
+  @apply font-normal text-primary-dark whitespace-no-wrap;
 }
 
 </style>
