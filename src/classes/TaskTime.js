@@ -5,6 +5,10 @@ import {
 
 const twoDecimals = round(2);
 
+/**
+ * @param { object | null } - Objeto de Fecha
+ * @param { boolean } - Flag para saber si las fechas tienen o no horas
+ */
 class TaskTime {
   constructor(time, localTime) {
     this.endDateLocked = false;
