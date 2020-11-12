@@ -8,6 +8,7 @@ context('COMPONENTE: TaskDuration', () => {
   });
   it('ESTABLECER DURACIÓN: NO FECHAS', () => {
     cy.get('[data-cy="duration"]')
+      .type(0)
       .type(2);
     cy.get('[data-cy="initDate"]')
       .should('be.empty');
@@ -16,6 +17,7 @@ context('COMPONENTE: TaskDuration', () => {
   })
   it('CALCULO FECHA FIN: ESTABLECER DURACIÓN Y FECHA INICIO', () => {
     cy.get('[data-cy="duration"]')
+      .type(0)
       .type(2);
     cy.get('[data-cy="initDate"]')
       .type('2020-09-13');
@@ -27,6 +29,7 @@ context('COMPONENTE: TaskDuration', () => {
   });
   it('CALCULO FECHA INICIO: ESTABLECER DURACIÓN Y FECHA FIN', () => {
     cy.get('[data-cy="duration"]')
+      .type(0)
       .type(3);
     cy.get('[data-cy="endDate"]')
       .type('2020-09-13');
@@ -38,6 +41,7 @@ context('COMPONENTE: TaskDuration', () => {
   })
   it('RECALCULO FECHA FIN: CAMBIO EN DURACIÓN Y FECHA INICIO EXISTE', () => {
     cy.get('[data-cy="duration"]')
+      .type(0)
       .type(2);
     cy.get('[data-cy="initDate"]')
       .type('2020-09-13');
@@ -70,6 +74,7 @@ context('COMPONENTE: TaskDuration', () => {
   })
   it('CALCULO FECHA INICIAL: BLOQUEO FECHA FIN Y MODIFICACIÓN DURACIÓN', () => {
     cy.get('[data-cy="duration"]')
+      .type(0)
       .type(3);
     cy.get('[data-cy="initDate"]')
       .type('2020-09-12');
@@ -93,6 +98,7 @@ context('COMPONENTE: TaskDuration', () => {
   })
   it('RECALCULO DURACIÓN: FECHAS BLOQUEADAS, TODO EXISTE, SE MODIFICA FECHA INICIO Y LUEGO FECHA FIN', () => {
     cy.get('[data-cy="duration"]')
+      .type(0)
       .type(3);
     cy.get('[data-cy="initDate"]')
       .type('2020-09-12');

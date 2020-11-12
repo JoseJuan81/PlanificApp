@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import HierarchyTask from './hierarchy';
+import Task from './task';
 
 Vue.use(Vuex);
 
@@ -9,6 +9,6 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    HierarchyTask: { namespaced: true, ...HierarchyTask },
+    Task: { namespaced: true, ...Task },
   },
 });

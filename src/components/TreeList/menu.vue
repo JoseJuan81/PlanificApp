@@ -21,7 +21,7 @@ function goTo({ path }) {
 function data() {
   return {
     routes: [
-      { path: 'actividades/lista', title: 'Listado Jerárquico' },
+      { path: 'actividades/lista', title: 'Jerarquía' },
       { path: '/gantt', title: 'Gantt' },
       { path: '/gastos/lista', title: 'Gastos' },
     ],
@@ -40,7 +40,7 @@ export default {
 <style lang="scss" scoped>
 .lateral-nav {
   ul {
-    @apply text-left text-2xl;
+    @apply text-left text-xl text-gray-base;
     @apply py-2;
 
     li {
@@ -56,7 +56,7 @@ export default {
 
       &.selected {
         @apply bg-primary-lightest;
-        @apply text-primary-dark font-bold;
+        @apply text-primary-dark;
       }
     }
   }

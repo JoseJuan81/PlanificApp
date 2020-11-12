@@ -2,31 +2,8 @@
   <div>
     <div
       :class="[
-        'bg-$white flex p-3 mb-2 rounded-lg shadow',
-        isNotEmptyList ? 'justify-between' : 'flex-col',
+        'bg-$white flex justify-end p-3 mb-2 rounded-lg shadow',
       ]">
-      <div class="flex" v-if="isNotEmptyList">
-        <button
-          type="button"
-          :class="[
-            'btn btn-icon h-16 w-16 mr-4',
-            { 'border border-solid border-primary-base': !flagTree },
-          ]"
-          @click="flagTree = false"
-        >
-          <taskListIcon class="text-primary-base" />
-        </button>
-        <button
-          type="button"
-          :class="[
-            'btn btn-icon h-16 w-16 mr-4',
-            { 'border border-solid border-primary-base': flagTree },
-          ]"
-          @click="flagTree = true"
-        >
-          <treeTaskIcon class="text-primary-base" />
-        </button>
-      </div>
       <div :class="{ 'self-end': !isNotEmptyList }">
         <button
           data-cy="new-task"
@@ -51,9 +28,11 @@
 <script>
 import { mapState } from 'vuex';
 import treeNodesDl from 'tree-nodes-dl';
-import taskListIcon from '@/components/Icons/dl-task-list-icon.vue';
-import treeTaskIcon from '@/components/Icons/dl-tree-tasks-icon.vue';
 import TaskNode from '@/components/TreeList/TaskNode.vue';
+
+function created() {
+  this.$store.dispatch('Task/list');
+}
 
 function indentComputed() {
   return this.flagTree ? 10 : 0;
@@ -73,17 +52,16 @@ export default {
   name: 'TreeList',
   components: {
     TaskNode,
-    taskListIcon,
     treeNodesDl,
-    treeTaskIcon,
   },
   computed: {
-    ...mapState('HierarchyTask', {
+    ...mapState('Task', {
       isNotEmptyList: (state) => state.list.length > 0,
       list: (state) => state.list,
     }),
     indentComputed,
   },
+  created,
   data,
   methods: {
     newTask,
@@ -125,14 +103,15 @@ export default {
 
     .slot-node-content {
       @apply border-t border-solid border-gray-light;
-      @apply duration-100;
+      @apply duration-75;
       @apply pr-3 py-2;
 
       &:hover {
         @apply bg-$white;
         @apply rounded-xl;
         @apply shadow-lg;
-        @apply transform scale-x-105;
+
+        transform: scaleX(1.015);
       }
     }
   }

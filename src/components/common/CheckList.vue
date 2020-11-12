@@ -8,6 +8,7 @@
     <input
       class="add-item-input"
       type="text"
+      ref="checkListTitle"
       :placeholder="placeholder"
       v-model="newItem"
       @keydown.enter="addNewItem"

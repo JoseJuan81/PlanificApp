@@ -7,7 +7,7 @@
 <style lang="scss">
 @import './assets/tailwind.scss';
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -23,6 +23,15 @@
     &.router-link-exact-active {
       color: #42b983;
     }
+  }
+}
+
+.error-msg-container {
+  @apply text-left;
+
+  .error-msg {
+    @apply text-error-dark text-base tracking-wider;
+    @apply ml-3;
   }
 }
 </style>

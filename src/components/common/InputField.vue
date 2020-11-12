@@ -75,15 +75,6 @@ export default {
   }
 }
 
-.error-msg-container {
-  @apply text-left;
-
-  .error-msg {
-    @apply text-error-dark text-lg tracking-wider;
-    @apply ml-3;
-  }
-}
-
 .invisible-input {
   @apply border-none;
   @apply py-2 px-4;

@@ -95,7 +95,7 @@ export default {
 
     .dl-section-container {
       @apply flex-auto;
-      @apply px-4;
+      @apply px-6;
     }
 
     .dl-aside-container-left,
@@ -104,8 +104,10 @@ export default {
       @apply bg-$white;
       @apply duration-200;
       @apply rounded shadow;
+      @apply sticky;
 
       flex-basis: 20%;
+      top: 7rem;
 
       .wrapper-menu {
         @apply border border-solid border-gray-medium;

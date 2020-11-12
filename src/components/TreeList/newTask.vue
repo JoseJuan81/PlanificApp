@@ -6,18 +6,19 @@
           type="button"
           class="collapsing-activator"
         >
-          <h3 class="font-bold text-primary-dark">Actividad</h3>
+          <h3 class="task-form-section-title">Actividad</h3>
         </button>
         <fieldset class="mb-4 px-4">
           <InputField
             invisible
             autocomplete="off"
             class="task-name"
-            :validation="$v.task.title.$invalid"
+            ref="taskName"
+            :validation="$v.task.name.$invalid"
             placeholder="nombre de la actividad"
-            v-model="task.title"
+            v-model="task.name"
           >
-            <span v-if="!$v.task.title.$required">título requerido</span>
+            <span v-if="!$v.task.name.$required">título requerido</span>
           </InputField>
         </fieldset>
       </div>
@@ -26,10 +27,10 @@
         <button
           type="button"
           class="collapsing-activator"
-          @click="hideBudgetContainer = !hideBudgetContainer"
+          @click="sectionActivator('hideBudgetContainer', 'budgetInput.inputField')"
         >
           <div class="w-full flex items-center justify-between">
-            <h3 class="font-bold text-primary-dark">Presupuesto</h3>
+            <h3 class="task-form-section-title">Presupuesto</h3>
             <span class="text-gray-medium">{{task.budget}}</span>
           </div>
         </button>
@@ -45,6 +46,7 @@
               <InputField
                 placeholder="Monto presupuesto"
                 :validation="false"
+                ref="budgetInput"
                 v-model.number="task.budget"
               />
             </fieldset>
@@ -56,10 +58,10 @@
         <button
           type="button"
           class="collapsing-activator"
-          @click="hideExpenseListContainer = !hideExpenseListContainer"
+          @click="sectionActivator('hideExpenseListContainer', 'expenseAmount.inputField')"
         >
           <div class="w-full flex items-center justify-between">
-            <h3 class="font-bold text-primary-dark">Gastos</h3>
+            <h3 class="task-form-section-title">Gastos</h3>
             <span class="text-gray-medium">{{totalExpense}}</span>
           </div>
         </button>
@@ -126,10 +128,10 @@
         <button
           type="button"
           class="collapsing-activator"
-          @click="hideCheckListContainer = !hideCheckListContainer"
+          @click="sectionActivator('hideCheckListContainer', 'checkListTitle.checkListTitle')"
         >
           <div class="flex items-center justify-between w-full">
-            <h3 class="font-bold text-primary-dark">Check List</h3>
+            <h3 class="task-form-section-title">Check List</h3>
             <span v-if="checkListSummary.total" class="text-gray-medium">
               <span>{{checkListSummary.done}}</span>
               <span>/</span>
@@ -147,7 +149,8 @@
           <CheckList
             class="check-list-component"
             placeholder="Agrega un actividad"
-            prop="content"
+            prop="title"
+            ref="checkListTitle"
             v-model="task.checkList"
           >
             <template v-slot:check-item="{ item }">
@@ -168,7 +171,7 @@
           class="collapsing-activator"
           @click="hideSubTaskContainer = !hideSubTaskContainer"
         >
-          <h3 class="font-bold text-primary-dark">Sub Actividades</h3>
+          <h3 class="task-form-section-title">Sub Actividades</h3>
         </button>
         <div
           data-cy="sub-task-container"
@@ -179,10 +182,13 @@
         >
           <fieldset class="mb-4 mt-2">
             <SelectorField
-              :validation="false"
               label="Actividades:"
-              :options="['carro', 'moto']"
-              v-model="task.subtasks"
+              placeholder="seleccionar"
+              item-text="name"
+              item-value="id"
+              :validation="false"
+              :options="flatListTasks"
+              v-model="task.subTasks"
             ></SelectorField>
           </fieldset>
         </div>
@@ -195,8 +201,8 @@
           @click="hideAsignedContainer = !hideAsignedContainer"
         >
           <div class="w-full flex items-center justify-between">
-            <h3 class="font-bold text-primary-dark">Asignar actividad</h3>
-            <div>Avatar de usuarios</div>
+            <h3 class="task-form-section-title">Asignar actividad</h3>
+            <small>Avatar de usuarios</small>
           </div>
         </button>
         <div
@@ -224,9 +230,9 @@
           data-cy="duration-container"
           class="collapsing-activator"
           type="button"
-          @click="hideTimeDefinition = !hideTimeDefinition"
+          @click="sectionActivator('hideTimeDefinition', 'taskDuration.duration.inputField')"
         >
-          <h3 class="font-bold text-primary-dark">Tiempo de ejecución</h3>
+          <h3 class="task-form-section-title">Tiempo de ejecución</h3>
         </button>
         <div
           :class="[
@@ -234,7 +240,7 @@
             { 'collapsing-container-collapsed': hideTimeDefinition },
           ]"
         >
-          <TaskDuration v-model="task.time"/>
+          <TaskDuration ref="taskDuration" v-model="task.time"/>
         </div>
       </div>
 
@@ -242,9 +248,9 @@
         <button
           class="collapsing-activator"
           type="button"
-          @click="hideLabelsContainer = !hideLabelsContainer"
+          @click="sectionActivator('hideLabelsContainer', 'etiquetas.input')"
         >
-          <h3 class="font-bold text-primary-dark">Etiquetas</h3>
+          <h3 class="task-form-section-title">Etiquetas</h3>
         </button>
         <div
           data-cy="labels-container"
@@ -255,6 +261,7 @@
         >
           <fieldset class="mb-4">
             <LabelsField
+              ref="etiquetas"
               placeholder="Etiquetas..."
               v-model="task.labels"
             />
@@ -268,7 +275,7 @@
           type="button"
           @click="hideRelatedTaskContainer = !hideRelatedTaskContainer"
         >
-          <h3 class="font-bold text-primary-dark">Actividades Relacionadas</h3>
+          <h3 class="task-form-section-title">Actividades Relacionadas</h3>
         </button>
         <div
           data-cy="related-container"
@@ -279,9 +286,9 @@
         >
           <ul class="mb-4">
             <li
-              v-for="(related, indexRe) in task.related"
+              v-for="(related, indexRe) in task.relatedTasks"
               :key="indexRe"
-            >{{related}}</li>
+            >{{related.name}}</li>
           </ul>
         </div>
       </div>
@@ -290,9 +297,9 @@
         <button
           class="collapsing-activator"
           type="button"
-          @click="hideCommetsContainer = !hideCommetsContainer"
+          @click="sectionActivator('hideCommetsContainer', 'comments.textarea')"
         >
-          <h3 class="font-bold text-primary-dark">Comentarios</h3>
+          <h3 class="task-form-section-title">Comentarios</h3>
         </button>
         <div
           data-cy="commets-container"
@@ -302,7 +309,7 @@
           ]"
         >
           <fieldset class="mb-4">
-            <TextAreaField v-model="task.commets"/>
+            <TextAreaField ref="comments" v-model="task.comments"/>
           </fieldset>
         </div>
       </div>
@@ -317,14 +324,17 @@
         type="button"
         class="btn btn-primary mx-4"
         :disabled="$v.$invalid"
-        @click="saveTask"
+        @click="saveTaskData"
       >Guardar</button>
     </section>
   </div>
 </template>
 <script>
-import { equality, filter } from 'functionallibrary';
+import {
+  compose, equality, filter, getPropertysValue, isEmpty, map, reduce, setNewProperty,
+} from 'functionallibrary';
 import { mapState } from 'vuex';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 import CheckList from '@/components/common/CheckList.vue';
 import DlAddIcon from '@/components/Icons/dl-add-icon.vue';
 import DlCheckIcon from '@/components/Icons/dl-check-icon.vue';
@@ -335,10 +345,16 @@ import LabelsField from '@/components/common/LabelsField.vue';
 import SelectorField from '@/components/common/SelectorField.vue';
 import TaskDuration from '@/components/common/TaskDuration.vue';
 import TextAreaField from '@/components/common/TextAreaField.vue';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { absDate, autoFocus } from '@/helpers';
 
-function created() {
+function mounted() {
+  this.loadData();
   this.setTask();
+  autoFocus(this, 'taskName.inputField');
+}
+
+function loadData() {
+  this.$store.dispatch('Task/flatList');
 }
 
 function setTask() {
@@ -353,7 +369,7 @@ function addExpense() {
   if (this.expense.amount && this.expense.title) {
     this.task.expenses = [].concat(this.task.expenses, { ...this.expense });
     this.cleanExpenseObject();
-    this.$refs.expenseAmount.$refs.inputField.focus();
+    autoFocus(this, 'expenseAmount.inputField');
   }
 }
 
@@ -362,11 +378,12 @@ function cleanExpenseObject() {
 }
 
 function checkListSummary() {
+  const checkList = getPropertysValue('checkList', this.task) || [];
   const done = equality('done', true);
-  const onlyDone = filter(done);
+  const onlyCheckDone = filter(done, checkList);
   return {
     total: this.task.checkList.length,
-    done: onlyDone(this.task.checkList).length,
+    done: onlyCheckDone.length || 0,
   };
 }
 
@@ -375,32 +392,78 @@ function deleteExpense(index) {
 }
 
 function totalExpense() {
-  return this.task.expenses.reduce((acc, exp) => acc + exp.amount, 0);
+  const expenses = getPropertysValue('expenses', this.task);
+  if (isEmpty(expenses)) {
+    return 0;
+  }
+  const sum = (acc, exp) => acc + exp.amount;
+  return reduce(sum, 0, expenses);
 }
 
 function onCancel() {
   this.$router.push({ name: 'tree-list' });
 }
 
+function updateTask() {
+  this.$store.dispatch('Task/update', this.task);
+  this.$router.push({ name: 'new-hierarchy-task' });
+}
+
 function saveTask() {
+  const modifyingTask = compose(
+    this.taskDateTransformation,
+    this.relatedTasksTransformation,
+  );
+  const newTask = modifyingTask(this.task);
+  this.$store.dispatch('Task/save', newTask);
+}
+
+function saveTaskData() {
   if (this.isEditing) {
-    this.$store.dispatch('HierarchyTask/update', this.task);
-    this.$router.push({ name: 'new-hierarchy-task' });
+    this.updateTask();
   } else {
-    this.task.id = 1;
-    this.$store.dispatch('HierarchyTask/save', this.task);
+    this.saveTask();
   }
   this.task = { ...this.emptyTask };
+}
+
+function taskDateTransformation(task) {
+  const { time: { endDate, initDate } } = task;
+  const formatingDates = compose(
+    setNewProperty('endDate', absDate(endDate)),
+    setNewProperty('initDate', absDate(initDate)),
+  );
+  const newTime = formatingDates(task.time);
+  return setNewProperty('time', newTime, task);
+}
+
+function relatedTasksTransformation(task) {
+  const relatedTasksArr = getPropertysValue('relatedTasks', task);
+  const relatedTaskObj = (r) => ({
+    condition: r.condition,
+    taskId: r.taskId,
+  });
+  const newRelatedTasksArr = map(relatedTaskObj, relatedTasksArr);
+  return setNewProperty('relatedTasks', newRelatedTasksArr, task);
 }
 
 function routeChange() {
   this.setTask();
 }
 
+function sectionActivator(flagSection, ref) {
+  this[flagSection] = !this[flagSection];
+  if (!this[flagSection]) {
+    this.$nextTick(
+      autoFocus(this, ref),
+    );
+  }
+}
+
 function validations() {
   return {
     task: {
-      title: { required },
+      name: { required },
       time: {
         endDate: {
           required: requiredIf(() => this.task.time.duration || this.task.time.initDate),
@@ -439,14 +502,18 @@ function data() {
       comments: '',
       expenses: [],
       labels: [],
-      related: [],
+      name: '',
+      relatedTasks: [{
+        condition: '',
+        taskId: '',
+        name: '',
+      }],
       time: {
         endDate: '',
         duration: 0,
         initDate: '',
       },
-      title: '',
-      subtasks: [],
+      subTasks: [],
     },
   };
 }
@@ -466,23 +533,30 @@ export default {
     TextAreaField,
   },
   computed: {
-    ...mapState('HierarchyTask', {
+    ...mapState('Task', {
       emptyTask: (state) => state.newTaskDefault,
+      flatListTasks: (state) => state.flatList,
       editingTask: (state) => state.detail,
     }),
     checkListSummary,
     totalExpense,
   },
-  created,
   data,
   methods: {
     addExpense,
     cleanExpenseObject,
     deleteExpense,
+    loadData,
     onCancel,
+    relatedTasksTransformation,
     saveTask,
+    saveTaskData,
+    sectionActivator,
     setTask,
+    taskDateTransformation,
+    updateTask,
   },
+  mounted,
   validations,
   watch: {
     '$route.fullPath': routeChange,
@@ -560,7 +634,7 @@ export default {
 
 .task-name {
   .invisible-input {
-    @apply text-2xl font-bold text-gray-base;
+    @apply text-2xl font-normal text-gray-base;
 
     &:focus {
       @apply bg-$white;
@@ -570,6 +644,10 @@ export default {
 
 .expense-amount {
   flex: 1 1 30%;
+}
+
+.task-form-section-title {
+  @apply font-normal text-primary-dark whitespace-no-wrap;
 }
 
 </style>

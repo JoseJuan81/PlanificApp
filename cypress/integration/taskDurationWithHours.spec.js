@@ -1,4 +1,4 @@
-context('COMPONENTE: TaskDuration', () => {
+context('COMPONENTE: TaskDuration con horas', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8080/actividades/lista');
     cy.get('[data-cy="new-task"]')
@@ -6,7 +6,7 @@ context('COMPONENTE: TaskDuration', () => {
     cy.get('[data-cy="duration-container"]')
       .click();
     cy.get('[data-cy="withHoursChk"]')
-      .click()
+      .click({ force: true })
       .should('be.checked');
   });
   it('CALCULO FECHA FIN: Duración 2.25 y fecha inicio 2020-09-10T00:00', () => {

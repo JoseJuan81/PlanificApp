@@ -5,6 +5,7 @@
       id="text-area-field"
       v-bind="$attrs"
       class="input-field"
+      ref="textarea"
       :value="value"
       @input="sendValue"
     ></textarea>
@@ -59,12 +60,4 @@ export default {
   }
 }
 
-.error-msg-container {
-  @apply text-left;
-
-  .error-msg {
-    @apply text-error-dark text-lg tracking-wider;
-    @apply ml-3;
-  }
-}
 </style>

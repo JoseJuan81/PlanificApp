@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col justify-start">
     <label for="input-field" class="input-label">{{label}}</label>
+
     <select
       v-if="itemText && itemValue"
       id="input-field"
@@ -15,6 +16,7 @@
         :value="opt[itemValue]"
       >{{opt[itemText]}}</option>
     </select>
+
     <select
       v-else
       id="input-field"
@@ -29,6 +31,7 @@
         :value="opt"
       >{{opt}}</option>
     </select>
+
     <div class="error-msg-container" v-if="validation">
       <span class="error-msg">
         <slot></slot>
@@ -90,12 +93,4 @@ export default {
   }
 }
 
-.error-msg-container {
-  @apply text-left;
-
-  .error-msg {
-    @apply text-error-dark text-lg tracking-wider;
-    @apply ml-3;
-  }
-}
 </style>

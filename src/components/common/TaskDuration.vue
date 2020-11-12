@@ -11,6 +11,7 @@
         data-cy="duration"
         type="number"
         label="Duración"
+        ref="duration"
         :disabled="isLockedEndDate && isLockedInitDate"
         :validation="false"
         :value="value.duration"
