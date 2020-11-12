@@ -14,13 +14,11 @@ export default function getResolvers() {
       createTask: async (_, { task }, { models }) => {
         const { ExpenseModel, TaskModel } = models;
         try {
-          const {
-            expenses, name, links, checkList,
-          } = task;
+          const { expenses, ...rest } = task;
           /**
            * Crear tarea en BD
            */
-          const taskCreated = await TaskModel.create({ name, links, checkList });
+          const taskCreated = await TaskModel.create({ ...rest });
           /**
            * Agregar id de actividad en cada gasto
            * Crear gastos

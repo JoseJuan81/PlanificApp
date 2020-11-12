@@ -63,7 +63,7 @@ function loadData() {
 }
 
 function editTask() {
-  this.$store.dispatch('HierarchyTask/edit', this.node);
+  this.$store.dispatch('Task/edit', this.node);
   const id = this.node.id || 1;
   this.$router.push({ name: 'edit-hierarchy-task', params: { id } });
 }

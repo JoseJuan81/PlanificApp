@@ -33,3 +33,16 @@ export const getHierarchyTaskDetails = () => (
     `,
   }
 );
+
+export const getFlatListTasks = () => (
+  {
+    query: gql`
+      query getTasks {
+        tasks {
+          id
+          name
+        }
+      }
+    `,
+  }
+);

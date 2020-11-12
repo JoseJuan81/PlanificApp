@@ -49,7 +49,7 @@ export default {
 .activator {
   @apply block;
   @apply p-3;
-  @apply w-20 h-20;
+  @apply w-16 h-16;
 
   @media (min-width: 769px) {
     @apply hidden;

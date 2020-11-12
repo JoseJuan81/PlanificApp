@@ -14,6 +14,7 @@ export const CreateHierarchyTaskMutation = gql`
           title
           done
         }
+        labels
         links
       }
     }

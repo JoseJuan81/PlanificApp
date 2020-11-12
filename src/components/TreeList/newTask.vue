@@ -182,9 +182,12 @@
         >
           <fieldset class="mb-4 mt-2">
             <SelectorField
-              :validation="false"
               label="Actividades:"
-              :options="['carro', 'moto']"
+              placeholder="seleccionar"
+              item-text="name"
+              item-value="id"
+              :validation="false"
+              :options="flatListTasks"
               v-model="task.subTasks"
             ></SelectorField>
           </fieldset>
@@ -306,7 +309,7 @@
           ]"
         >
           <fieldset class="mb-4">
-            <TextAreaField ref="comments" v-model="task.commets"/>
+            <TextAreaField ref="comments" v-model="task.comments"/>
           </fieldset>
         </div>
       </div>
@@ -321,14 +324,14 @@
         type="button"
         class="btn btn-primary mx-4"
         :disabled="$v.$invalid"
-        @click="saveTask"
+        @click="saveTaskData"
       >Guardar</button>
     </section>
   </div>
 </template>
 <script>
 import {
-  equality, filter, getPropertysValue, isEmpty, map, reduce, setNewProperty,
+  compose, equality, filter, getPropertysValue, isEmpty, map, reduce, setNewProperty,
 } from 'functionallibrary';
 import { mapState } from 'vuex';
 import { required, requiredIf } from 'vuelidate/lib/validators';
@@ -342,11 +345,16 @@ import LabelsField from '@/components/common/LabelsField.vue';
 import SelectorField from '@/components/common/SelectorField.vue';
 import TaskDuration from '@/components/common/TaskDuration.vue';
 import TextAreaField from '@/components/common/TextAreaField.vue';
-import { autoFocus } from '@/helpers';
+import { absDate, autoFocus } from '@/helpers';
 
 function mounted() {
+  this.loadData();
   this.setTask();
   autoFocus(this, 'taskName.inputField');
+}
+
+function loadData() {
+  this.$store.dispatch('Task/flatList');
 }
 
 function setTask() {
@@ -396,15 +404,37 @@ function onCancel() {
   this.$router.push({ name: 'tree-list' });
 }
 
+function updateTask() {
+  this.$store.dispatch('Task/update', this.task);
+  this.$router.push({ name: 'new-hierarchy-task' });
+}
+
 function saveTask() {
+  const modifyingTask = compose(
+    this.taskDateTransformation,
+    this.relatedTasksTransformation,
+  );
+  const newTask = modifyingTask(this.task);
+  this.$store.dispatch('Task/save', newTask);
+}
+
+function saveTaskData() {
   if (this.isEditing) {
-    this.$store.dispatch('HierarchyTask/update', this.task);
-    this.$router.push({ name: 'new-hierarchy-task' });
+    this.updateTask();
   } else {
-    this.task = this.relatedTasksTransformation(this.task);
-    this.$store.dispatch('HierarchyTask/save', this.task);
+    this.saveTask();
   }
   this.task = { ...this.emptyTask };
+}
+
+function taskDateTransformation(task) {
+  const { time: { endDate, initDate } } = task;
+  const formatingDates = compose(
+    setNewProperty('endDate', absDate(endDate)),
+    setNewProperty('initDate', absDate(initDate)),
+  );
+  const newTime = formatingDates(task.time);
+  return setNewProperty('time', newTime, task);
 }
 
 function relatedTasksTransformation(task) {
@@ -503,8 +533,9 @@ export default {
     TextAreaField,
   },
   computed: {
-    ...mapState('HierarchyTask', {
+    ...mapState('Task', {
       emptyTask: (state) => state.newTaskDefault,
+      flatListTasks: (state) => state.flatList,
       editingTask: (state) => state.detail,
     }),
     checkListSummary,
@@ -515,11 +546,15 @@ export default {
     addExpense,
     cleanExpenseObject,
     deleteExpense,
+    loadData,
     onCancel,
     relatedTasksTransformation,
     saveTask,
+    saveTaskData,
     sectionActivator,
     setTask,
+    taskDateTransformation,
+    updateTask,
   },
   mounted,
   validations,

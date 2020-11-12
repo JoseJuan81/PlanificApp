@@ -30,3 +30,12 @@ export const autoFocus = (context, refs) => {
 };
 
 export const autoTab = () => {};
+
+export const absDate = (stringDate) => {
+  const today = new Date();
+  const hours = today.getHours();
+  const minutes = today.getMinutes();
+  const seconds = today.getSeconds();
+  const [year, month, day] = stringDate.split('-');
+  return new Date(year, month - 1, day, hours, minutes, seconds);
+};
