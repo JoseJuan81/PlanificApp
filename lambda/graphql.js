@@ -5,7 +5,7 @@ import connectToMongoDB from './mongoDb/mongooseConnection';
 import TaskModel from './api/models/taskSchema';
 import ExpenseModel from './api/models/expenseSchema';
 
-exports.handler = async function handler(event, context) {
+const init = async function handler(event, context) {
   try {
     await connectToMongoDB();
 
@@ -21,19 +21,22 @@ exports.handler = async function handler(event, context) {
           TaskModel,
         },
       }),
+      formatResponse: (res, req) => {
+        console.log('grahqlResponse', res);
+        return res;
+      },
     });
 
-    return new Promise((yay, nay) => {
-      const cb = (err, args) => (err ? nay(err) : yay(args));
-      server.createHandler({
-        cors: {
-          origin: '*',
-        },
-      })(event, context, cb);
-    });
+    return server.createHandler();
+    // return new Promise((yay, nay) => {
+    //   const cb = (err, args) => (err ? nay(err) : yay(args));
+    //   server.createHandler()(event, context, cb);
+    // });
   } catch (error) {
     console.error('Error al conectarse con BD', error);
 
     return false;
   }
 };
+
+exports.handler = init();
