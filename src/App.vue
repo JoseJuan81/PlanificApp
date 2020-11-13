@@ -1,11 +1,12 @@
 <template>
-  <div id="app" class="text-gray-dark text-2xl">
+  <div id="app" class="main-container">
     <router-view/>
   </div>
 </template>
 
 <style lang="scss">
-@import './assets/tailwind.scss';
+@import './assets/styles/tailwind.scss';
+
 #app {
   font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,6 +25,10 @@
       color: #42b983;
     }
   }
+}
+
+.main-container {
+  @apply text-gray-dark text-2xl;
 }
 
 .error-msg-container {

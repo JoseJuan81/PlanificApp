@@ -5,6 +5,7 @@ import connectToMongoDB from './mongoDb/mongooseConnection';
 import TaskModel from './api/models/taskSchema';
 import ExpenseModel from './api/models/expenseSchema';
 
+// exports.handler = async function handler(event, context) {
 exports.handler = async function handler(event, context) {
   try {
     await connectToMongoDB();
@@ -21,8 +22,11 @@ exports.handler = async function handler(event, context) {
           TaskModel,
         },
       }),
+      formatResponse: (res, req) => {
+        return res;
+      },
     });
-
+    console.log('antes de return SERVER.CREATEHANDLER');
     return new Promise((yay, nay) => {
       const cb = (err, args) => (err ? nay(err) : yay(args));
       server.createHandler({
@@ -37,3 +41,5 @@ exports.handler = async function handler(event, context) {
     return false;
   }
 };
+
+// exports.handler = init();
