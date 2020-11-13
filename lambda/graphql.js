@@ -5,7 +5,8 @@ import connectToMongoDB from './mongoDb/mongooseConnection';
 import TaskModel from './api/models/taskSchema';
 import ExpenseModel from './api/models/expenseSchema';
 
-const init = async function handler(event, context) {
+// exports.handler = async function handler(event, context) {
+exports.handler = async function handler() {
   try {
     await connectToMongoDB();
 
@@ -27,10 +28,11 @@ const init = async function handler(event, context) {
       },
     });
 
-    return new Promise((yay, nay) => {
-      const cb = (err, args) => (err ? nay(err) : yay(args));
-      server.createHandler()(event, context, cb);
-    });
+    return server.createHandler();
+    // return new Promise((yay, nay) => {
+    //   const cb = (err, args) => (err ? nay(err) : yay(args));
+    //   return server.createHandler()(event, context, cb);
+    // });
   } catch (error) {
     console.error('Error al conectarse con BD', error);
 
@@ -38,4 +40,4 @@ const init = async function handler(event, context) {
   }
 };
 
-exports.handler = init();
+// exports.handler = init();
