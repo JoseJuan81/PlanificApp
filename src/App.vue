@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="text-gray-dark text-2xl">
+  <div id="app" class="main-container">
     <router-view/>
   </div>
 </template>
@@ -25,6 +25,10 @@
       color: #42b983;
     }
   }
+}
+
+.main-container {
+  @apply text-gray-dark text-2xl;
 }
 
 .error-msg-container {

@@ -48,7 +48,7 @@ const actions = {
       .then(({ data }) => {
         commit('SET_LIST', data.tasks);
       })
-      .catch((error) => console.log('Error al cargar lista jerárquica', error));
+      .catch((error) => console.log('Client Error al cargar lista jerárquica', error));
   },
   async save(store, task) {
     try {
