@@ -27,11 +27,10 @@ const init = async function handler(event, context) {
       },
     });
 
-    return server.createHandler();
-    // return new Promise((yay, nay) => {
-    //   const cb = (err, args) => (err ? nay(err) : yay(args));
-    //   server.createHandler()(event, context, cb);
-    // });
+    return new Promise((yay, nay) => {
+      const cb = (err, args) => (err ? nay(err) : yay(args));
+      server.createHandler()(event, context, cb);
+    });
   } catch (error) {
     console.error('Error al conectarse con BD', error);
 
