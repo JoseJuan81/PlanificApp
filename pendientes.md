@@ -20,3 +20,4 @@
 - [x] Barra de navegación 
 - [x] Duración de una actividad: funcionalidad para calcular fechas con duración o duración a partir de fechas
 - [x] Igual a anterior pero con hora
+- [ ] Instalar `vue add cypress-experimental` para pruebas en componentes de vue.js
