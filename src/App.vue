@@ -5,7 +5,8 @@
 </template>
 
 <style lang="scss">
-@import './assets/tailwind.scss';
+@import './assets/styles/tailwind.scss';
+
 #app {
   font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
