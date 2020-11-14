@@ -26,7 +26,6 @@ exports.handler = async function handler(event, context) {
         return res;
       },
     });
-    console.log('antes de return SERVER.CREATEHANDLER');
     return new Promise((yay, nay) => {
       const cb = (err, args) => (err ? nay(err) : yay(args));
       server.createHandler({

@@ -10,7 +10,7 @@ const expenseSchema = new Schema({
     default: '',
     type: String,
   },
-  currency: {
+  currencyCode: {
     default: '',
     required: true,
     type: String,

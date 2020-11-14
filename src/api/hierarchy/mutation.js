@@ -9,7 +9,9 @@ export const CreateHierarchyTaskMutation = gql`
       task {
         id
         name
-        budget
+        budget {
+          amount
+        }
         checkList {
           title
           done

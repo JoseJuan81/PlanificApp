@@ -6,7 +6,7 @@ export default function getTypeDefs(gql) {
     type Task {
       asigned: ID
       balance: Float
-      budget: Float
+      budget: Budget
       checkList: [CheckList]!
       children: [Task]!
       comments: [String]!
@@ -53,6 +53,10 @@ export default function getTypeDefs(gql) {
       ES
       SS
       SE
+    }
+    type Budget {
+      amount: Float
+      currencyCode: String
     }
   `;
   return typeDefs;

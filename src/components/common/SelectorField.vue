@@ -12,6 +12,7 @@
     >
       <option
         v-for="(opt, indexOpt) in options"
+        :selected="opt[itemValue] === value"
         :key="indexOpt"
         :value="opt[itemValue]"
       >{{opt[itemText]}}</option>
@@ -27,6 +28,7 @@
     >
       <option
         v-for="(opt, indexOpt) in options"
+        :selected="opt === value"
         :key="indexOpt"
         :value="opt"
       >{{opt}}</option>

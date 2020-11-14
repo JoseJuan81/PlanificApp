@@ -14,8 +14,8 @@
             autocomplete="off"
             class="task-name"
             ref="taskName"
-            :validation="$v.task.name.$invalid"
             placeholder="nombre de la actividad"
+            :validation="$v.task.name.$invalid"
             v-model="task.name"
           >
             <span v-if="!$v.task.name.$required">título requerido</span>
@@ -31,7 +31,7 @@
         >
           <div class="w-full flex items-center justify-between">
             <h3 class="task-form-section-title">Presupuesto</h3>
-            <span class="text-gray-medium">{{task.budget}}</span>
+            <span class="text-gray-medium">{{task.budget.amount}}</span>
           </div>
         </button>
         <div
@@ -41,13 +41,26 @@
             { 'collapsing-container-collapsed': hideBudgetContainer },
           ]"
         >
-          <form class="mb-4" autocomplete="off">
-            <fieldset>
-              <InputField
-                placeholder="Monto presupuesto"
+          <form class="mb-4 flex">
+            <fieldset class="w-40 mr-6">
+              <SelectorField
+                label="Moneda"
+                placeholder="seleccionar"
+                item-text="code"
+                item-value="code"
                 :validation="false"
+                :options="currencies"
+                v-model="task.budget.currencyCode"
+              ></SelectorField>
+            </fieldset>
+            <fieldset class="flex-auto">
+              <InputField
+                label="Monto"
+                placeholder="Monto presupuesto"
                 ref="budgetInput"
-                v-model.number="task.budget"
+                :validation="false"
+                @press-enter="false"
+                v-model.number="task.budget.amount"
               />
             </fieldset>
           </form>
@@ -73,15 +86,27 @@
           ]"
         >
           <form class="mb-4">
-            <div class="flex items-center justify-between">
-              <fieldset class="expense-amount">
+            <div class="flex flex-wrap items-center">
+              <fieldset class="basis-40 mr-4">
+                <SelectorField
+                  label="Moneda"
+                  placeholder="seleccionar"
+                  item-text="code"
+                  item-value="code"
+                  :validation="false"
+                  :options="currencies"
+                  v-model="expense.currencyCode"
+                ></SelectorField>
+              </fieldset>
+              <fieldset class="basis-50">
                 <InputField
+                  label="Monto"
+                  ref="expenseAmount"
                   :validation="false"
                   v-model.number="expense.amount"
-                  ref="expenseAmount"
                 />
               </fieldset>
-              <fieldset class="flex-auto">
+              <fieldset class="flex-auto mt-4">
                 <InputField
                   invisible
                   placeholder="Nombre gasto"
@@ -103,10 +128,10 @@
             <li
               v-for="(expense, exIndex) in task.expenses"
               :key="exIndex"
-              class="flex justify-between items-center"
+              class="flex items-center"
             >
             <h3 class="font-bold text-2xl text-warning-dark">{{expense.amount}}</h3>
-            <h4 class="ml-4">{{expense.title}}</h4>
+            <h4 class="expense-title">{{expense.title}}</h4>
             <div class="flex items-center justify-end my-2">
               <button type="button" class="btn-mini-icon">
                 <DlDetailsIcon class="fill-gray-base hover:fill-primary-medium" />
@@ -314,7 +339,7 @@
         </div>
       </div>
     </form>
-    <section class="bg-white flex justify-center align-center absolute bottom-0 right-0 left-0 p-8">
+    <section class="btn-section">
       <button
         type="button"
         class="btn btn-error mx-4"
@@ -346,11 +371,28 @@ import SelectorField from '@/components/common/SelectorField.vue';
 import TaskDuration from '@/components/common/TaskDuration.vue';
 import TextAreaField from '@/components/common/TextAreaField.vue';
 import { absDate, autoFocus } from '@/helpers';
+import { emptyTask } from '@/helpers/models';
+
+function created() {
+  this.setDefaultCurrency();
+}
 
 function mounted() {
   this.loadData();
   this.setTask();
   autoFocus(this, 'taskName.inputField');
+}
+
+function setDefaultCurrency() {
+  const { budget } = this.task;
+  const budgetWithCurrencyByDefault = setNewProperty(
+    'currencyCode',
+    this.defaultCurrency,
+    budget,
+  );
+
+  this.task = setNewProperty('budget', budgetWithCurrencyByDefault, this.task);
+  this.expense = setNewProperty('currencyCode', this.defaultCurrency, this.expense);
 }
 
 function loadData() {
@@ -374,7 +416,7 @@ function addExpense() {
 }
 
 function cleanExpenseObject() {
-  this.expense = { amount: 0, title: '' };
+  this.expense = { amount: 0, title: '', currencyCode: this.defaultCurrency };
 }
 
 function checkListSummary() {
@@ -424,7 +466,7 @@ function saveTaskData() {
   } else {
     this.saveTask();
   }
-  this.task = { ...this.emptyTask };
+  this.task = { ...emptyTask };
 }
 
 function taskDateTransformation(task) {
@@ -483,6 +525,7 @@ function data() {
   return {
     expense: {
       amount: 0,
+      currencyCode: '',
       title: '',
     },
     isEditing: false,
@@ -495,26 +538,7 @@ function data() {
     hideRelatedTaskContainer: true,
     hideSubTaskContainer: true,
     hideTimeDefinition: true,
-    task: {
-      asigned: '',
-      budget: 0,
-      checkList: [],
-      comments: '',
-      expenses: [],
-      labels: [],
-      name: '',
-      relatedTasks: [{
-        condition: '',
-        taskId: '',
-        name: '',
-      }],
-      time: {
-        endDate: '',
-        duration: 0,
-        initDate: '',
-      },
-      subTasks: [],
-    },
+    task: { ...emptyTask },
   };
 }
 
@@ -533,14 +557,18 @@ export default {
     TextAreaField,
   },
   computed: {
+    ...mapState({
+      currencies: (state) => state.currencies,
+      defaultCurrency: (state) => state.defaultCurrency,
+    }),
     ...mapState('Task', {
-      emptyTask: (state) => state.newTaskDefault,
       flatListTasks: (state) => state.flatList,
       editingTask: (state) => state.detail,
     }),
     checkListSummary,
     totalExpense,
   },
+  created,
   data,
   methods: {
     addExpense,
@@ -552,6 +580,7 @@ export default {
     saveTask,
     saveTaskData,
     sectionActivator,
+    setDefaultCurrency,
     setTask,
     taskDateTransformation,
     updateTask,
@@ -642,12 +671,24 @@ export default {
   }
 }
 
-.expense-amount {
-  flex: 1 1 30%;
-}
-
 .task-form-section-title {
   @apply font-normal text-primary-dark whitespace-no-wrap;
+}
+
+.btn-section {
+  @apply bg-white;
+  @apply flex justify-center items-center;
+  @apply absolute bottom-0 right-0 left-0;
+  @apply p-8;
+  @apply rounded-lg;
+}
+
+.expense-title {
+  @apply ml-4;
+  @apply text-left;
+  @apply truncate;
+  @apply w-full;
+  max-width: 13rem;
 }
 
 </style>

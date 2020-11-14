@@ -5,14 +5,17 @@ export const getHierarchyTasks = () => (
     query: gql`
       query getTasks {
         tasks {
-          budget
+          budget {
+            amount
+            currencyCode
+          }
           checkList {
             title
             done
           }
           expenses {
             amount
-            currency
+            currencyCode
           }
           id
           labels

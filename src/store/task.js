@@ -10,26 +10,6 @@ const state = () => ({
   detail: {},
   flatList: [],
   list: [],
-  newTaskDefault: {
-    asigned: '',
-    budget: 0,
-    checkList: [],
-    comments: '',
-    expenses: [],
-    labels: [],
-    name: '',
-    relatedTasks: [{
-      condition: '',
-      taskId: '',
-      name: '',
-    }],
-    time: {
-      endDate: '',
-      duration: 0,
-      initDate: '',
-    },
-    subTasks: [],
-  },
 });
 
 const actions = {
