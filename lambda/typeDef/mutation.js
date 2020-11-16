@@ -12,7 +12,7 @@ export default function getTypeDefs(gql) {
     input CreateTaskInput {
       asigned: String,
       balance: Float,
-      budget: Float,
+      budget: BudgetInput,
       checkList: [CheckListInput]
       children: [String],
       comments: [String],
@@ -29,6 +29,10 @@ export default function getTypeDefs(gql) {
       status: String,
       subTasks: [String],
       time: TimeTaskInput,
+    }
+    input BudgetInput {
+      amount: Float
+      currencyCode: String
     }
     input CheckListInput {
       done: Boolean
@@ -49,7 +53,7 @@ export default function getTypeDefs(gql) {
     }
     input ExpenseTaskInput {
       amount: Float,
-      currency: String,
+      currencyCode: String,
       title: String,
     }
     interface MutationResponse {

@@ -7,7 +7,7 @@ export default function getTypeDefs(gql) {
     type Expense {
       amount: Float
       billingNumber: String
-      currency: String
+      currencyCode: String
       description: String
       image: String
       place: String

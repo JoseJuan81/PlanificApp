@@ -84,7 +84,7 @@ function createBars() {
 function getTotalExpensesAndBudget() {
   return [
     { active: true, title: 'expenses', value: this.node.spent },
-    { active: false, title: 'budget', value: this.node.budget || 5 },
+    { active: false, title: 'budget', value: this.node.budget.amount || 5 },
   ];
 }
 
@@ -100,8 +100,8 @@ function data() {
   return {
     barsOptions: {
       activeProp: 'active',
-      classActive: 'fill-error-medium',
-      classUnActive: 'fill-gray-light hover:fill-gray-medium',
+      classActive: 'fill-error-medium hover:fill-error-dark',
+      classUnActive: 'fill-primary-medium hover:fill-primary-dark',
       data: [],
       margin: {
         top: 10, right: 10, bottom: 10, left: 10,

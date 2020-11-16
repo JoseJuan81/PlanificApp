@@ -3,33 +3,13 @@ import { equality, findIndex } from 'functionallibrary';
 
 import gqlApi from '@/Apollo';
 
-import { getFlatListTasks, getHierarchyTasks } from '@/api/hierarchy/query';
-import { CreateHierarchyTaskMutation } from '@/api/hierarchy/mutation';
+import { getFlatListTasks, getHierarchyTasks } from '@/api/task/query';
+import { CreateHierarchyTaskMutation } from '@/api/task/mutation';
 
 const state = () => ({
   detail: {},
   flatList: [],
   list: [],
-  newTaskDefault: {
-    asigned: '',
-    budget: 0,
-    checkList: [],
-    comments: '',
-    expenses: [],
-    labels: [],
-    name: '',
-    relatedTasks: [{
-      condition: '',
-      taskId: '',
-      name: '',
-    }],
-    time: {
-      endDate: '',
-      duration: 0,
-      initDate: '',
-    },
-    subTasks: [],
-  },
 });
 
 const actions = {

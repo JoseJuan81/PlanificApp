@@ -103,7 +103,7 @@ export default {
       @apply h-full;
       @apply bg-$white;
       @apply duration-200;
-      @apply rounded shadow;
+      @apply rounded-lg shadow;
       @apply sticky;
 
       flex-basis: 20%;

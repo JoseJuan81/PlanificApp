@@ -14,8 +14,14 @@ const taskSchema = new Schema({
     type: String,
   },
   budget: {
-    default: 0,
-    type: Number,
+    amount: {
+      default: 0,
+      type: Number,
+    },
+    currencyCode: {
+      default: 'PEN',
+      type: String,
+    },
   },
   checkList: {
     default: [],

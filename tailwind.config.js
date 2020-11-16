@@ -9,6 +9,21 @@ function basis({ addUtilities }) {
     '.basis-10': {
       flexBasis: '10%',
     },
+    '.basis-20': {
+      flexBasis: '20%',
+    },
+    '.basis-30': {
+      flexBasis: '30%',
+    },
+    '.basis-40': {
+      flexBasis: '40%',
+    },
+    '.basis-50': {
+      flexBasis: '50%',
+    },
+    '.basis-60': {
+      flexBasis: '60%',
+    },
   };
   addUtilities(Basis);
 }

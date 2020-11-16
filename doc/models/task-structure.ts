@@ -1,5 +1,4 @@
 type ID = string;
-type ExpenseID = string;
 type TaskID = string;
 type UserID = string;
 enum TaskStatus {
@@ -34,19 +33,31 @@ interface TaskCheckList {
   title: string,
   done: boolean,
 }
-interface Task {
+
+interface Budget {
+  amount: number,
+  currencyCode: string,
+}
+
+interface Expense {
+  amount: number,
+  currencyCode: string,
+  title: string,
+}
+
+type Task = {
   /* a quién está asignada la actividad*/
   asigned: UserID,
   /* factor de balance económico de la actividad gastado / presupuestado*/
   balance: number,
   /* presupuesto asignado a la actividad*/
-  budget: number,
+  budget: Budget,
   /* checklist de actividades requeridas para completar la actividad*/
   checkList: Array<TaskCheckList>
   /* comentarios a realizar sobre la actividad*/
   comments: Array<string>,
   /* gastos relacionados a la actividad*/
-  expenses: Array<ExpenseID>,
+  expenses: Array<Expense>,
   /* flag para saber que no existen subactividades, solo checklist*/
   flagSimpleTask: boolean,
   id: TaskID,

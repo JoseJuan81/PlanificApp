@@ -8,7 +8,7 @@
       :class="[invisible ? 'invisible-input' : 'input-field']"
       :value="value"
       @input="sendValue"
-      @keydown.enter="pushEnter"
+      @keydown.enter.prevent="pushEnter"
     >
     <div class="error-msg-container" v-if="validation">
       <span class="error-msg">
