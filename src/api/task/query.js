@@ -1,28 +1,15 @@
 import { gql } from '@apollo/client/core';
+import { HIERARCHY_TASK_FRAGMENT } from './fragments';
 
 export const getHierarchyTasks = () => (
   {
     query: gql`
       query getTasks {
         tasks {
-          budget {
-            amount
-            currencyCode
-          }
-          checkList {
-            title
-            done
-          }
-          expenses {
-            amount
-            currencyCode
-          }
-          id
-          labels
-          name
-          spent
+          ...hierarchyTaskFields
         }
       }
+      ${HIERARCHY_TASK_FRAGMENT(gql)}
     `,
   }
 );

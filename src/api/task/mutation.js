@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client/core';
+import { HIERARCHY_TASK_FRAGMENT } from './fragments';
 
 export const CreateHierarchyTaskMutation = gql`
   mutation createTask($CreateTaskInput: CreateTaskInput) {
@@ -7,20 +8,11 @@ export const CreateHierarchyTaskMutation = gql`
       success
       message
       task {
-        id
-        name
-        budget {
-          amount
-        }
-        checkList {
-          title
-          done
-        }
-        labels
-        links
+        ...hierarchyTaskFields
       }
     }
   }
+  ${HIERARCHY_TASK_FRAGMENT(gql)}
 `;
 
 export const other = null;

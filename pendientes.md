@@ -10,7 +10,7 @@
 - [ ] Diseño móvil
 
 ### **GraphQl Server**
-- [ ] Crear fragment en graphql para actividades
+- [x] Crear fragment en graphql para actividades
 - [ ] Crear servicio de actividades anidadas
 - [ ] Implementar servicio de búsqueda de actividades
 

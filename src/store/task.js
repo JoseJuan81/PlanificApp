@@ -3,8 +3,8 @@ import { equality, findIndex } from 'functionallibrary';
 
 import gqlApi from '@/Apollo';
 
-import { getFlatListTasks, getHierarchyTasks } from '@/api/hierarchy/query';
-import { CreateHierarchyTaskMutation } from '@/api/hierarchy/mutation';
+import { getFlatListTasks, getHierarchyTasks } from '@/api/task/query';
+import { CreateHierarchyTaskMutation } from '@/api/task/mutation';
 
 const state = () => ({
   detail: {},
