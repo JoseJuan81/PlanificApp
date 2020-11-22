@@ -1,4 +1,4 @@
-import TaskResolvers from './tasks';
+import TaskResolvers from './tasks/index';
 
 export default [
   TaskResolvers(),
