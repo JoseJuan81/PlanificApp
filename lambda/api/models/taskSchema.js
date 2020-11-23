@@ -34,10 +34,6 @@ const taskSchema = new Schema({
     default: [],
     type: [String],
   },
-  createdAt: {
-    default: Date.now,
-    type: Date,
-  },
   expenses: {
     default: [],
     type: [String],
@@ -104,11 +100,7 @@ const taskSchema = new Schema({
       default: '',
     },
   },
-  updatedAt: {
-    default: Date.now,
-    type: Date,
-  },
-});
+}, { timestamps: true });
 
 /* Campos virtuales */
 taskSchema.virtual('balance').get(function calculateBalance() {

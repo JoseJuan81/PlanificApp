@@ -8,10 +8,15 @@
 - [ ] Definir cómo se mostrará planificación de tiempo ejecución en listado jerárquico.
 - [ ] Auto scroll en formulario de nueva actividad cuando el campo está oculto y se hace `focus` on it.
 - [ ] Diseño móvil
+- [ ] Manejo de errores
 
 ### **GraphQl Server**
 - [x] Crear fragment en graphql para actividades.
+- [x] Actualizar una actividad
+- [x] Eliminar actividad de base de datos
 - [ ] Al crear actividades verificar se existen `subTasks` para actualizar el `parentTaskId`
+- [ ] Implementar throttle para cuidar servidor: https://www.apollographql.com/docs/link/links/rest/#options
+- [ ] Eliminar actividad lógicamente - Usar plugin global
 - [ ] Crear servicio de actividades anidadas
 - [ ] Implementar servicio de búsqueda de actividades
 

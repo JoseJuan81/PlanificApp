@@ -1,6 +1,7 @@
 export default function getTypeDefs(gql) {
   const typeDefs = gql`
     extend type Query {
+      task(id: ID!): Task
       tasks: [Task]!
       hierarchyTask: [Task]!
     }
