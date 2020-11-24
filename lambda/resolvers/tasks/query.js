@@ -20,7 +20,6 @@ export const getSubTasks = async (parent, args, { models }) => {
 export const getParentTask = async (parent, args, { models }) => {
   const { TaskModel } = models;
   const { parentTaskId } = parent;
-  console.log('parent', parent);
 
   if (parentTaskId) {
     const parentTask = await TaskModel.findById(parentTaskId);
