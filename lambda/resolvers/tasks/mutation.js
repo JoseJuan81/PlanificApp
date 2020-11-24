@@ -3,12 +3,15 @@ import { ApolloError } from 'apollo-server-lambda';
 
 export const getCreateTask = async (_, { task }, { models }) => {
   const { ExpenseModel, TaskModel } = models;
+
   try {
-    const { expenses, ...rest } = task;
+    const { expenses, subTasks, ...rest } = task;
+
     /**
      * Crear tarea en BD
      */
-    const taskCreated = await TaskModel.create({ ...rest });
+    const taskCreated = await TaskModel.create({ subTasks, ...rest });
+
     /**
      * Agregar id de actividad en cada gasto
      * Crear gastos
@@ -30,6 +33,17 @@ export const getCreateTask = async (_, { task }, { models }) => {
       */
       taskCreated.expenses = taskCreated.getExpensesIds(newExpenses);
       taskCreated.spent = taskCreated.calculateTotalSpent(expenses);
+    }
+
+    /**
+     * Actualizar parentTaskId de subtasks
+    */
+    if (!isEmpty(subTasks)) {
+      const parentTaskId = taskCreated.get('id');
+      await TaskModel.updateMany(
+        { _id: { $in: subTasks } },
+        { parentTaskId },
+      );
     }
     await taskCreated.save();
     return {

@@ -4,6 +4,7 @@
 - [x] Agregar tipo de monedas en secciones **Presupuesto** y **Gastos**
 - [x] Crear actividades con gastos, presupuestos y lista de tareas.
 - [x] Crear fragment en graphql para actividades.
+- [ ] Borrar formulario al crear actividad
 - [ ] Implementar multiselector para sub actividades
 - [ ] Maquetar buscador de actividades
 - [ ] Definir cómo se mostrará planificación de tiempo ejecución en listado jerárquico.
@@ -14,7 +15,7 @@
 ### **GraphQl Server**
 - [x] Actualizar una actividad
 - [x] Eliminar actividad de base de datos
-- [ ] Al crear actividades verificar se existen `subTasks` para actualizar el `parentTaskId`
+- [x] Al crear actividades verificar se existen `subTasks` para actualizar el `parentTaskId`
 - [ ] Implementar throttle para cuidar servidor: https://www.apollographql.com/docs/link/links/rest/#options
 - [ ] Eliminar actividad lógicamente - Usar plugin global
 - [ ] Crear servicio de actividades anidadas
