@@ -1,9 +1,9 @@
 import TaskTypeDefs from './task';
 import ExpenseTypeDefs from './expense';
-import Mutations from './mutation';
+import TaskMutations from './taskMutation';
 
 export default (gql) => [
   ExpenseTypeDefs(gql),
   TaskTypeDefs(gql),
-  Mutations(gql),
+  TaskMutations(gql),
 ];

@@ -5,7 +5,6 @@ import connectToMongoDB from './mongoDb/mongooseConnection';
 import TaskModel from './api/models/taskSchema';
 import ExpenseModel from './api/models/expenseSchema';
 
-// exports.handler = async function handler(event, context) {
 exports.handler = async function handler(event, context) {
   try {
     await connectToMongoDB();
@@ -40,5 +39,3 @@ exports.handler = async function handler(event, context) {
     return false;
   }
 };
-
-// exports.handler = init();
