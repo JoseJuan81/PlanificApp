@@ -1,17 +1,17 @@
 ## Pantalla de Actividades Jerarquizadas
 ### **UI**
 - [x] Quitar botones de Jerarquía y Lista (encima de listado) 
-- [ ] Implementar multiselector para sub actividades
-- [ ] Maquetar buscador de actividades
 - [x] Agregar tipo de monedas en secciones **Presupuesto** y **Gastos**
 - [x] Crear actividades con gastos, presupuestos y lista de tareas.
+- [x] Crear fragment en graphql para actividades.
+- [ ] Implementar multiselector para sub actividades
+- [ ] Maquetar buscador de actividades
 - [ ] Definir cómo se mostrará planificación de tiempo ejecución en listado jerárquico.
 - [ ] Auto scroll en formulario de nueva actividad cuando el campo está oculto y se hace `focus` on it.
 - [ ] Diseño móvil
 - [ ] Manejo de errores
 
 ### **GraphQl Server**
-- [x] Crear fragment en graphql para actividades.
 - [x] Actualizar una actividad
 - [x] Eliminar actividad de base de datos
 - [ ] Al crear actividades verificar se existen `subTasks` para actualizar el `parentTaskId`
