@@ -467,6 +467,7 @@ function saveTaskData() {
     this.saveTask();
   }
   this.task = { ...emptyTask };
+  this.setDefaultCurrency();
 }
 
 function taskDateTransformation(task) {

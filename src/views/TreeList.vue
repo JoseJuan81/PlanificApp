@@ -15,10 +15,10 @@
     <tree-nodes-dl
       data-cy="treeNodes"
       class="tree-container"
-      children="inner"
+      children="subTasks"
       text="title"
       :indent="indentComputed"
-      :nodes="list"
+      :nodes="hierarchyList"
       v-slot="{ node, isOpen }"
     >
       <TaskNode :node="node" :is-open="isOpen" :flag-tree="flagTree" />
@@ -31,7 +31,7 @@ import treeNodesDl from 'tree-nodes-dl';
 import TaskNode from '@/components/TreeList/TaskNode.vue';
 
 function created() {
-  this.$store.dispatch('Task/list');
+  this.$store.dispatch('Task/hierarchy');
 }
 
 function indentComputed() {
@@ -56,8 +56,8 @@ export default {
   },
   computed: {
     ...mapState('Task', {
-      isNotEmptyList: (state) => state.list.length > 0,
-      list: (state) => state.list,
+      isNotEmptyList: (state) => state.hierarchy.length > 0,
+      hierarchyList: (state) => state.hierarchy,
     }),
     indentComputed,
   },

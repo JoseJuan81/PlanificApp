@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import { HIERARCHY_TASK_FRAGMENT } from './fragments';
+import { HIERARCHY_TASK_FRAGMENT, FLATLIST_TASK_FRAGMENT } from './fragments';
 
 export const getHierarchyTasks = () => (
   {
@@ -7,6 +7,12 @@ export const getHierarchyTasks = () => (
       query getTasks {
         tasks {
           ...hierarchyTaskFields
+          subTasks {
+            ...hierarchyTaskFields
+            subTasks {
+              ...hierarchyTaskFields
+            }
+          }
         }
       }
       ${HIERARCHY_TASK_FRAGMENT(gql)}
@@ -29,10 +35,10 @@ export const getFlatListTasks = () => (
     query: gql`
       query getTasks {
         tasks {
-          id
-          name
+          ...flatListTaskField
         }
       }
+      ${FLATLIST_TASK_FRAGMENT(gql)}
     `,
   }
 );

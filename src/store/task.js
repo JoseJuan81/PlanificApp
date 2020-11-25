@@ -9,7 +9,7 @@ import { CreateHierarchyTaskMutation } from '@/api/task/mutation';
 const state = () => ({
   detail: {},
   flatList: [],
-  list: [],
+  hierarchy: [],
 });
 
 const actions = {
@@ -23,10 +23,10 @@ const actions = {
       })
       .catch((error) => console.log('Error al cargar flatList', error));
   },
-  list({ commit }) {
+  hierarchy({ commit }) {
     gqlApi.query(getHierarchyTasks())
       .then(({ data }) => {
-        commit('SET_LIST', data.tasks);
+        commit('SET_HIERARCHY_LIST', data.tasks);
       })
       .catch((error) => console.log('Client Error al cargar lista jerárquica', error));
   },
@@ -60,8 +60,8 @@ const mutations = {
   SET_FLAT_LIST(st, tasks) {
     st.flatList = [...tasks];
   },
-  SET_LIST(st, tasks) {
-    st.list = [...tasks];
+  SET_HIERARCHY_LIST(st, tasks) {
+    st.hierarchy = [...tasks];
   },
   SET_NEW_TASK(st, newTask) {
     st.list.push(newTask);
