@@ -19,4 +19,9 @@ export const HIERARCHY_TASK_FRAGMENT = (gql) => gql`
   }
 `;
 
-export const a = null;
+export const FLATLIST_TASK_FRAGMENT = (gql) => gql`
+  fragment flatListTaskField on Task {
+    id
+    name
+  }
+`;

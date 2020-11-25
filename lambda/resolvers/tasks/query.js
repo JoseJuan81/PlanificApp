@@ -1,5 +1,3 @@
-import { buildHierarchy } from '../../helpers';
-
 export const getSubTasks = async (parent, args, { models }) => {
   const { TaskModel } = models;
   const ids = parent.subTasks;
@@ -43,6 +41,6 @@ export const getTask = async (parent, { id }, { models }) => {
 
 export const getHierarchyTask = async (paren, args, { models }) => {
   const { TaskModel } = models;
-  const tasks = await TaskModel.find();
-  return buildHierarchy(tasks);
+  const tasks = await TaskModel.find({ parentTaskId: null });
+  return tasks;
 };
