@@ -1,23 +1,29 @@
 <template>
   <div class="bg-gray-light min-h-screen">
+
     <NavBar />
+
     <div class="container pt-8">
+
       <UserProfileLayout
         show-right
         :class="['profile', { 'show': $route.name === 'new-hierarchy-task' }]"
         :show="showMovilMenu"
         :break-point="768"
       >
+
         <template v-slot:asideLeft>
           <div class="aside-container">
             <router-view name="menuLeft" />
           </div>
         </template>
+
         <template v-slot:main-content>
           <div class="min-w-movil">
             <router-view />
           </div>
         </template>
+
         <template v-slot:menu-movil>
           <div class="activator movil mb-4">
             <button
@@ -31,6 +37,7 @@
           </div>
           <router-view name="menuLeft" class="px-4" />
         </template>
+
         <template v-slot:asideRight>
           <div
             :class="['aside-container']">
@@ -38,9 +45,11 @@
           </div>
         </template>
       </UserProfileLayout>
+
     </div>
   </div>
 </template>
+
 <script>
 import UserProfileLayout from 'user-profile-layout';
 import BackIcon from '@/components/Icons/dl-backLeft-icon.vue';

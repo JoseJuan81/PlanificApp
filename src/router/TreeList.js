@@ -9,7 +9,7 @@ const treeListRoute = {
       path: 'lista',
       components: {
         default: () => import(/* webpackChunkName: "tree-list" */ '@/views/TreeList.vue'),
-        menuLeft: () => import('@/components/TreeList/menu.vue'),
+        menuLeft: () => import('@/components/common/Menu.vue'),
         menuRight: () => import('@/components/TreeList/detail.vue'),
       },
       children: [
