@@ -3,17 +3,17 @@
     <g>
       <path
         :d="d1"
-      >
+      ></path>
       <path
         :d="d2"
-      >
+      ></path>
       <path
         :d="d3"
-      >
+      ></path>
       <circle cx="28.883" cy="24.803" r="1"/>
       <path
         :d="d4"
-      >
+      ></path>
     </g>
   </svg>
 </template>
