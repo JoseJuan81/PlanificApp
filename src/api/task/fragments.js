@@ -15,6 +15,9 @@ export const HIERARCHY_TASK_FRAGMENT = (gql) => gql`
     id
     labels
     name
+    parentTask {
+      id
+    }
     spent
   }
 `;

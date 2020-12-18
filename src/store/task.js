@@ -26,7 +26,7 @@ const actions = {
   hierarchy({ commit }) {
     gqlApi.query(getHierarchyTasks())
       .then(({ data }) => {
-        commit('SET_HIERARCHY_LIST', data.tasks);
+        commit('SET_HIERARCHY_LIST', data.hierarchyTask);
       })
       .catch((error) => console.log('Client Error al cargar lista jerárquica', error));
   },

@@ -80,6 +80,10 @@
           <TreeTask />
           <small class="icon-name">dl-tree-tasks-icon</small>
         </div>
+        <div class="icon-card">
+          <MinusIcon />
+          <small class="icon-name">dl-minus-icon</small>
+        </div>
     </div>
 </template>
 
@@ -101,6 +105,7 @@ import Heart from '@/components/Icons/dl-heart-icon.vue';
 import LockIcon from '@/components/Icons/dl-lock-icon.vue';
 import LockOpen from '@/components/Icons/dl-lock-open-icon.vue';
 import Motocycle from '@/components/Icons/dl-motocycle-icon.vue';
+import MinusIcon from '@/components/Icons/dl-minus-icon.vue';
 import PayIcon from '@/components/Icons/dl-pay-icon.vue';
 import TaskList from '@/components/Icons/dl-task-list-icon.vue';
 import TreeTask from '@/components/Icons/dl-tree-tasks-icon.vue';
@@ -125,6 +130,7 @@ export default {
     LockIcon,
     LockOpen,
     Motocycle,
+    MinusIcon,
     PayIcon,
     TaskList,
     TreeTask,
