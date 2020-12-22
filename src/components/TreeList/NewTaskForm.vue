@@ -544,7 +544,7 @@ function data() {
 }
 
 export default {
-  name: 'Detail',
+  name: 'NewTaskForm',
   components: {
     CheckList,
     DlAddIcon,

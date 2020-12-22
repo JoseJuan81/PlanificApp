@@ -11,7 +11,7 @@ export default function getTypeDefs(gql) {
       description: String
       image: String
       place: String
-      title: String
+      name: String
       relatedTaskId: Task
     }
   `;

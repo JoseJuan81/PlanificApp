@@ -10,18 +10,18 @@ const treeListRoute = {
       components: {
         default: () => import(/* webpackChunkName: "tree-list" */ '@/views/TreeList.vue'),
         menuLeft: () => import('@/components/common/Menu.vue'),
-        menuRight: () => import('@/components/TreeList/detail.vue'),
+        menuRight: () => import('@/components/TreeList/TaskDetails.vue'),
       },
       children: [
         {
           name: 'new-hierarchy-task',
           path: 'nueva',
-          component: () => import('@/components/TreeList/newTask.vue'),
+          component: () => import('@/components/TreeList/NewTaskForm.vue'),
         },
         {
           name: 'edit-hierarchy-task',
           path: 'editar/:id',
-          component: () => import('@/components/TreeList/newTask.vue'),
+          component: () => import('@/components/TreeList/NewTaskForm.vue'),
         },
       ],
     },

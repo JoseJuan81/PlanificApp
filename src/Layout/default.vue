@@ -99,6 +99,7 @@ export default {
 }
 
 .dl-layout-main-container.profile {
+  @apply duration-150 ease-in-out;
 
   .dl-container-layout {
     @apply flex;
@@ -114,7 +115,6 @@ export default {
       @apply bg-$white;
       @apply rounded-lg shadow;
       @apply sticky;
-      @apply duration-200;
 
       top: 7rem;
 
@@ -138,7 +138,7 @@ export default {
     }
 
     .dl-aside-container-left {
-      flex: 0 1 15%;
+      flex: 0 1 18%;
     }
 
     .dl-aside-container-right {
@@ -195,8 +195,12 @@ export default {
 .dl-layout-main-container.profile.show {
   .dl-container-layout {
     .dl-aside-container-right {
-        flex: 0 1 25% !important;
-      }
+      flex: 0 1 25%;
+    }
+
+    .dl-aside-container-left {
+      flex: 0 1 15%;
+    }
   }
 }
 
