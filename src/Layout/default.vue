@@ -13,7 +13,7 @@
       >
 
         <template v-slot:asideLeft>
-          <div class="aside-container">
+          <div class="menu-left">
             <router-view name="menuLeft" />
           </div>
         </template>
@@ -40,7 +40,7 @@
 
         <template v-slot:asideRight>
           <div
-            :class="['aside-container']">
+            class="menu-right">
             <router-view name="menuRight" />
           </div>
         </template>
@@ -99,6 +99,7 @@ export default {
 }
 
 .dl-layout-main-container.profile {
+
   .dl-container-layout {
     @apply flex;
 
@@ -111,11 +112,10 @@ export default {
     .dl-aside-container-right {
       @apply h-full;
       @apply bg-$white;
-      @apply duration-200;
       @apply rounded-lg shadow;
       @apply sticky;
+      @apply duration-200;
 
-      flex-basis: 20%;
       top: 7rem;
 
       .wrapper-menu {
@@ -137,8 +137,12 @@ export default {
       }
     }
 
+    .dl-aside-container-left {
+      flex: 0 1 15%;
+    }
+
     .dl-aside-container-right {
-      flex-basis: 0%;
+      flex: 0 1 0%;
     }
   }
 
@@ -186,16 +190,14 @@ export default {
       }
     }
   }
+
+}
+.dl-layout-main-container.profile.show {
+  .dl-container-layout {
+    .dl-aside-container-right {
+        flex: 0 1 25% !important;
+      }
+  }
 }
 
-.dl-layout-main-container.show {
-  .dl-aside-container-right {
-      flex-basis: 27.5% !important;
-    }
-}
-.aside-container {
-  @apply sticky;
-
-  top: 7rem;
-}
 </style>
