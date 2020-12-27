@@ -44,18 +44,24 @@ interface Expense {
   currencyCode: string,
   title: string,
 }
+interface Balance {
+  amount: number,
+  currencyCode: string,
+}
 
 type Task = {
   /* a quién está asignada la actividad*/
-  asigned: UserID,
+  assignedId: UserID,
   /* factor de balance económico de la actividad gastado / presupuestado*/
-  balance: number,
+  balance: Balance,
   /* presupuesto asignado a la actividad*/
   budget: Budget,
   /* checklist de actividades requeridas para completar la actividad*/
   checkList: Array<TaskCheckList>
   /* comentarios a realizar sobre la actividad*/
   comments: Array<string>,
+  /* compañía a la que pertenece la actividad */
+  companyId: string,
   /* gastos relacionados a la actividad*/
   expenses: Array<Expense>,
   /* flag para saber que no existen subactividades, solo checklist*/

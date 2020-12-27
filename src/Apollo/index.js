@@ -9,15 +9,15 @@ const uri = isDev ? devUri : prodUri;
 
 const cache = new InMemoryCache();
 const link = createHttpLink({
-  fetch,
-  uri,
+	fetch,
+	uri,
 });
 const client = new ApolloClient({
-  cache,
-  link,
-  name: 'planificApp-client',
-  version: '1.0',
-  queryDeduplication: false,
+	cache,
+	link,
+	name: 'planificApp-client',
+	version: '1.0',
+	queryDeduplication: false,
 });
 
 export default client;

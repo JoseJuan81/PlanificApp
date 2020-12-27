@@ -18,7 +18,7 @@ export default function getTypeDefs(gql) {
       labels: [String]!
       links: [String]!
       name: String
-      parentTask: Task
+      parentTask: Task!
       progress: TaskProgress
       relatedTask: [TaskRelated]!
       spent: Float

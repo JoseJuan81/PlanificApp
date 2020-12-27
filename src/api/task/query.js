@@ -4,8 +4,8 @@ import { HIERARCHY_TASK_FRAGMENT, FLATLIST_TASK_FRAGMENT } from './fragments';
 export const getHierarchyTasks = () => (
   {
     query: gql`
-      query getTasks {
-        tasks {
+      query getHierarchyTask {
+        hierarchyTask {
           ...hierarchyTaskFields
           subTasks {
             ...hierarchyTaskFields

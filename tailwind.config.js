@@ -37,6 +37,9 @@ module.exports = {
   important: true,
   theme: {
     extend: {
+      borderRadius: {
+        xl: '0.75rem',
+      },
       colors: {
         error: {
           lightest: '#FDEDED',
@@ -102,8 +105,13 @@ module.exports = {
       minWidth: {
         movil: '32rem',
       },
-      borderRadius: {
-        xl: '0.75rem',
+      screens: {
+        'sm': '640px',
+        'md': '768px',
+        'lg': '900px',
+        'xl': '1024px',
+        '2xl': '1280px',
+        '3xl': '1536px',
       },
       width: {
         content: 'fit-content',

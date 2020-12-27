@@ -31,6 +31,9 @@ export const autoFocus = (context, refs) => {
 
 export const autoTab = () => {};
 
+/**
+ * @param {string} stringDate - fecha a ser convertida (yyyy-mm-dd)
+ */
 export const absDate = (stringDate) => {
   const today = new Date();
   const hours = today.getHours();

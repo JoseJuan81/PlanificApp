@@ -24,7 +24,7 @@ export const getParentTask = async (parent, args, { models }) => {
     return parentTask;
   }
 
-  return '';
+  return { id: '' };
 };
 
 export const getTasks = async (parent, args, { models }) => {
@@ -39,8 +39,8 @@ export const getTask = async (parent, { id }, { models }) => {
   return tasks;
 };
 
-export const getHierarchyTask = async (paren, args, { models }) => {
+export const getHierarchyTask = async (parent, args, { models }) => {
   const { TaskModel } = models;
-  const tasks = await TaskModel.find({ parentTaskId: null });
+  const tasks = await TaskModel.find({ parentTaskId: '' }).sort('-createdAt');
   return tasks;
 };
